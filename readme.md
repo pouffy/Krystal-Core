@@ -61,5 +61,3 @@ Krystal Core contains a few helper methods for registering items. These methods 
 - SimpleJsonListener for reading Json files in data packs.
 - TagHelpers contains a large amount of tags for use in item or block registry.
 - CompatibleMod and CompatibleDoubleMod to extend from to register stuff if specific mods are present.
-
-
