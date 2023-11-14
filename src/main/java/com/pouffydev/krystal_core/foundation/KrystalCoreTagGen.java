@@ -17,7 +17,12 @@ public class KrystalCoreTagGen {
     public static <T extends Block, P> NonNullFunction<BlockBuilder<T, P>, BlockBuilder<T, P>> axeOnly() {
         return b -> b.tag(BlockTags.MINEABLE_WITH_AXE);
     }
-    
+    public static <T extends Block, P> NonNullFunction<BlockBuilder<T, P>, BlockBuilder<T, P>> hoeOnly() {
+        return b -> b.tag(BlockTags.MINEABLE_WITH_HOE);
+    }
+    public static <T extends Block, P> NonNullFunction<BlockBuilder<T, P>, BlockBuilder<T, P>> shovelOnly() {
+        return b -> b.tag(BlockTags.MINEABLE_WITH_SHOVEL);
+    }
     public static <T extends Block, P> NonNullFunction<BlockBuilder<T, P>, BlockBuilder<T, P>> pickaxeOnly() {
         return b -> b.tag(BlockTags.MINEABLE_WITH_PICKAXE);
     }

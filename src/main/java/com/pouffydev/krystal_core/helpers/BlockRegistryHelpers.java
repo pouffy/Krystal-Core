@@ -9,24 +9,26 @@ import com.pouffydev.krystal_core.foundation.data.lang.KrystalCoreLang;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.providers.loot.RegistrateBlockLootTables;
 import com.tterrag.registrate.util.entry.BlockEntry;
+import net.minecraft.core.BlockPos;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
 import net.minecraftforge.common.Tags;
 
-import static com.pouffydev.krystal_core.foundation.KrystalCoreTagGen.pickaxeOnly;
-import static com.pouffydev.krystal_core.foundation.KrystalCoreTagGen.tagBlockAndItem;
-import static com.pouffydev.krystal_core.helpers.TagHelpers.gems;
-import static com.pouffydev.krystal_core.helpers.TagHelpers.ingots;
+import static com.pouffydev.krystal_core.foundation.KrystalCoreTagGen.*;
+import static com.pouffydev.krystal_core.helpers.TagHelpers.*;
 
 
 /**
@@ -78,12 +80,13 @@ public class BlockRegistryHelpers {
      * @return The block entry
      * <p>
      */
-    public static BlockEntry<Block> ore(String material, String lang, Block copyPropertiesFrom, SoundType soundType, MaterialColor materialColor, int harvestLevel, Item drop, boolean deepslate) {
+    public static BlockEntry<Block> ore(String material, String lang, Block copyPropertiesFrom, SoundType soundType, MaterialColor materialColor, int harvestLevel, float hardness, Item drop, boolean deepslate) {
         return blockRegistrate.block(material + "_ore", Block::new)
                 .initialProperties(() -> copyPropertiesFrom)
-                .properties(p -> p.color(materialColor))
+                .properties(p -> p.color(materialColor).strength(hardness))
                 .properties(p -> p.requiresCorrectToolForDrops().sound(soundType))
                 .transform(pickaxeOnly())
+                .blockstate((ctx, prov) -> prov.cubeAll(ctx.getEntry()))
                 .loot((lt, b) -> lt.add(b,
                         RegistrateBlockLootTables.createSilkTouchDispatchTable(b,
                                 RegistrateBlockLootTables.applyExplosionDecay(b, LootItem.lootTableItem(drop)
@@ -98,15 +101,16 @@ public class BlockRegistryHelpers {
                 .register();
     }
     
-    public static BlockEntry<Block> storageBlock(String material, String lang, Block copyPropertiesFrom, SoundType soundType, MaterialColor materialColor, int harvestLevel, MaterialType materialType) {
+    public static BlockEntry<Block> storageBlock(String material, String lang, Block copyPropertiesFrom, SoundType soundType, MaterialColor materialColor, int harvestLevel, float hardness, MaterialType materialType) {
         return blockRegistrate.block(material + "_block", Block::new)
                 .initialProperties(() -> copyPropertiesFrom)
-                .properties(p -> p.color(materialColor))
+                .properties(p -> p.color(materialColor).strength(hardness))
                 .properties(p -> p.requiresCorrectToolForDrops().sound(soundType))
                 .transform(pickaxeOnly())
                 .tag(harvestLevel(harvestLevel))
                 .tag(Tags.Blocks.STORAGE_BLOCKS)
                 .tag(BlockTags.BEACON_BASE_BLOCKS)
+                .blockstate((ctx, prov) -> prov.cubeAll(ctx.getEntry()))
                 .recipe((ctx, prov) -> ShapedRecipeBuilder.shaped(ctx.getEntry(), 1)
                         .define('T', materialType(materialType, material))
                         .pattern("TTT")
@@ -121,5 +125,122 @@ public class BlockRegistryHelpers {
                 .register();
     }
     
+    
+    private static final Material leaves = new Material.Builder(MaterialColor.PLANT).flammable().notSolidBlocking().destroyOnPush().build();
+    private static final Material wood = new Material.Builder(MaterialColor.WOOD).flammable().build();
+    private static final Material netherWood = new Material.Builder(MaterialColor.WOOD).build();
+    private static Boolean ocelotOrParrot(BlockState state, BlockGetter getter, BlockPos pos, EntityType<?> entityType) {
+        return entityType == EntityType.OCELOT || entityType == EntityType.PARROT;
+    }
+    private static Boolean never(BlockState state, BlockGetter getter, BlockPos pos) {
+        return false;
+    }
+    
+    private static Boolean always(BlockState state, BlockGetter getter, BlockPos pos) {
+        return true;
+    }
+    public static BlockEntry<LeavesBlock> leaf(String material, String lang, SoundType soundType, MaterialColor materialColor, int harvestLevel, float hardness) {
+        return blockRegistrate.block(material + "_leaves", LeavesBlock::new)
+                .properties(p -> p.color(materialColor).sound(soundType).strength(hardness))
+                .properties(p -> BlockBehaviour.Properties.of(leaves).randomTicks().noOcclusion().isValidSpawn(BlockRegistryHelpers::ocelotOrParrot).isSuffocating(BlockRegistryHelpers::never).isViewBlocking(BlockRegistryHelpers::never))
+                .transform(hoeOnly())
+                .tag(harvestLevel(harvestLevel))
+                .tag(leaves())
+                .blockstate((ctx, prov) -> prov.cubeAll(ctx.getEntry()))
+                .transform(tagBlockAndItem("leaves/" + material))
+                .tag(leavesI())
+                .build()
+                .lang(lang)
+                .register();
+    }
+    public static BlockEntry<RotatedPillarBlock> log(String material, String lang, SoundType soundType, MaterialColor materialColor, int harvestLevel, float hardness) {
+        return blockRegistrate.block(material + "_log", RotatedPillarBlock::new)
+                .properties(p -> p.color(materialColor).sound(soundType).strength(hardness))
+                .properties(p -> BlockBehaviour.Properties.of(wood))
+                .transform(axeOnly())
+                .tag(harvestLevel(harvestLevel))
+                .tag(logs())
+                .blockstate((ctx, prov) -> prov.logBlock(ctx.getEntry()))
+                .transform(tagBlockAndItem("logs/" + material))
+                .tag(logsI())
+                .build()
+                .lang(lang)
+                .register();
+    }
+    public static BlockEntry<RotatedPillarBlock> netherStem(String material, String lang, SoundType soundType, MaterialColor materialColor, int harvestLevel, float hardness) {
+        return blockRegistrate.block(material + "_stem", RotatedPillarBlock::new)
+                .properties(p -> p.color(materialColor).sound(soundType).strength(hardness))
+                .properties(p -> BlockBehaviour.Properties.of(netherWood))
+                .transform(axeOnly())
+                .tag(harvestLevel(harvestLevel))
+                .tag(logs())
+                .blockstate((ctx, prov) -> prov.logBlock(ctx.getEntry()))
+                .transform(tagBlockAndItem("logs/" + material))
+                .tag(logsI())
+                .build()
+                .lang(lang)
+                .register();
+    }
+    
+    public static BlockEntry<RotatedPillarBlock> wood(String material, String lang, SoundType soundType, MaterialColor materialColor, int harvestLevel, float hardness) {
+        return blockRegistrate.block(material + "_wood", RotatedPillarBlock::new)
+                .properties(p -> p.color(materialColor).sound(soundType).strength(hardness))
+                .properties(p -> BlockBehaviour.Properties.of(wood))
+                .transform(axeOnly())
+                .tag(harvestLevel(harvestLevel))
+                .tag(logs())
+                .blockstate((ctx, prov) -> prov.axisBlock(ctx.getEntry(), new ResourceLocation(ctx.getId().getNamespace(), material + "_log_side"), new ResourceLocation(ctx.getId().getNamespace(), material + "_log_side")))
+                
+                .transform(tagBlockAndItem("logs/" + material))
+                .tag(logsI())
+                .build()
+                .lang(lang)
+                .register();
+    }
+    
+    public static BlockEntry<RotatedPillarBlock> strippedWood(String material, String lang, SoundType soundType, MaterialColor materialColor, int harvestLevel, float hardness) {
+        return blockRegistrate.block("stripped_" + material + "_wood", RotatedPillarBlock::new)
+                .properties(p -> p.color(materialColor).sound(soundType).strength(hardness))
+                .properties(p -> BlockBehaviour.Properties.of(wood))
+                .transform(axeOnly())
+                .tag(harvestLevel(harvestLevel))
+                .tag(strippedLogs())
+                .blockstate((ctx, prov) -> prov.axisBlock(ctx.getEntry(), new ResourceLocation(ctx.getId().getNamespace(), "stripped_" + material + "_log_side"), new ResourceLocation(ctx.getId().getNamespace(), "stripped_" + material + "_log_side")))
+                .transform(tagBlockAndItem("stripped_logs/" + material))
+                .tag(strippedLogsI())
+                .build()
+                .lang(lang)
+                .register();
+    }
+    
+    public static BlockEntry<RotatedPillarBlock> strippedNetherStem(String material, String lang, SoundType soundType, MaterialColor materialColor, int harvestLevel, float hardness) {
+        return blockRegistrate.block("stripped_" + material + "_stem", RotatedPillarBlock::new)
+                .properties(p -> p.color(materialColor).sound(soundType).strength(hardness))
+                .properties(p -> BlockBehaviour.Properties.of(netherWood))
+                .transform(axeOnly())
+                .tag(harvestLevel(harvestLevel))
+                .tag(strippedLogs())
+                .blockstate((ctx, prov) -> prov.logBlock(ctx.getEntry()))
+                .transform(tagBlockAndItem("stripped_logs/" + material))
+                .tag(strippedLogsI())
+                .build()
+                .lang(lang)
+                .register();
+    }
+    
+    public static BlockEntry<RotatedPillarBlock> strippedLog(String material, String lang, SoundType soundType, MaterialColor materialColor, int harvestLevel, float hardness) {
+        return blockRegistrate.block("stripped_" + material + "_log", RotatedPillarBlock::new)
+                .properties(p -> p.color(materialColor).sound(soundType).strength(hardness))
+                .properties(p -> BlockBehaviour.Properties.of(wood))
+                .transform(axeOnly())
+                .tag(harvestLevel(harvestLevel))
+                .tag(strippedLogs())
+                .blockstate((ctx, prov) -> prov.logBlock(ctx.getEntry()))
+                .transform(tagBlockAndItem("stripped_logs/" + material))
+                .tag(strippedLogsI())
+                .build()
+                .lang(lang)
+                .register();
+    }
     
 }

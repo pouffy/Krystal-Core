@@ -1,11 +1,14 @@
 package com.pouffydev.krystal_core;
 
 import com.mojang.logging.LogUtils;
+import com.pouffydev.krystal_core.foundation.CommonEvents;
 import com.pouffydev.krystal_core.foundation.KrystalCoreRegistrate;
+//import com.pouffydev.krystal_core.helpers.data_driven.CompostableJsonListener;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -47,7 +50,7 @@ public class KrystalCore
         
         MinecraftForge.EVENT_BUS.register(this);
         
-        
+        eventBus.addListener(CommonEvents::init);
         registrate.registerEventListeners(eventBus);
     }
 
@@ -85,6 +88,10 @@ public class KrystalCore
         }
     }
     
+    @SubscribeEvent
+    public void jsonReading(AddReloadListenerEvent event) {
+        //event.addListener(CompostableJsonListener.instance);
+    }
     @Contract("_ -> new")
     public static @NotNull ResourceLocation asResource(String path) {
         return new ResourceLocation(ID, path);

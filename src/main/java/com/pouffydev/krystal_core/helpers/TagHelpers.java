@@ -3,6 +3,8 @@ package com.pouffydev.krystal_core.helpers;
 import com.pouffydev.krystal_core.foundation.KrystalCoreTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+
 /**
  * Pre-Built TagKey's for my items for use in TagGen
  * @see TagKey
@@ -90,4 +92,56 @@ public class TagHelpers {
     public static TagKey<Item> reinforcedSheets() {
         return KrystalCoreTags.forgeItemTag("plates/reinforced");
     }
+    public static TagKey<Block> logs() {
+        return KrystalCoreTags.forgeBlockTag("logs");
+    }
+    public static TagKey<Block> logs(String material) {
+        return KrystalCoreTags.forgeBlockTag("logs/" + material);
+    }
+    public static TagKey<Block> strippedLogs() {
+        return KrystalCoreTags.forgeBlockTag("stripped_logs");
+    }
+    public static TagKey<Block> strippedLogs(String material) {
+        return KrystalCoreTags.forgeBlockTag("stripped_logs/" + material);
+    }
+    public static TagKey<Block> planks() {
+        return KrystalCoreTags.forgeBlockTag("planks");
+    }
+    public static TagKey<Block> planks(String material) {
+        return KrystalCoreTags.forgeBlockTag("planks/" + material);
+    }
+    public static TagKey<Block> leaves() {
+        return KrystalCoreTags.forgeBlockTag("leaves");
+    }
+    public static TagKey<Block> leaves(String material) {
+        return KrystalCoreTags.forgeBlockTag("leaves/" + material);
+    }
+    
+    public static TagKey<Item> logsI() {
+        return KrystalCoreTags.forgeItemTag("logs");
+    }
+    public static TagKey<Item> logsI(String material) {
+        return KrystalCoreTags.forgeItemTag("logs/" + material);
+    }
+    public static TagKey<Item> strippedLogsI() {
+        return KrystalCoreTags.forgeItemTag("stripped_logs");
+    }
+    public static TagKey<Item> strippedLogsI(String material) {
+        return KrystalCoreTags.forgeItemTag("stripped_logs/" + material);
+    }
+    public static TagKey<Item> planksI() {
+        return KrystalCoreTags.forgeItemTag("planks");
+    }
+    public static TagKey<Item> planksI(String material) {
+        return KrystalCoreTags.forgeItemTag("planks/" + material);
+    }
+    public static TagKey<Item> leavesI() {
+        return KrystalCoreTags.forgeItemTag("leaves");
+    }
+    public static TagKey<Item> leavesI(String material) {
+        return KrystalCoreTags.forgeItemTag("leaves/" + material);
+    }
+    
+    
+    
 }

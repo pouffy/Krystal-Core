@@ -15,33 +15,33 @@ import static com.pouffydev.krystal_core.helpers.TagHelpers.*;
  */
 public class ItemRegistryHelpers {
     private static final KrystalCoreRegistrate itemRegistrate = KrystalCore.registrate();
-    public static ItemEntry<SwordItem> sword(String material, Tier tier, int pAttackDamageModifier, float pAttackSpeedModifier) {
-        return itemRegistrate.item(material + "_sword", p -> new SwordItem(tier, pAttackDamageModifier, pAttackSpeedModifier, p))
+    public static ItemEntry<SwordItem> sword(String material, Tier tier, int attackDamageModifier, float attackSpeedModifier) {
+        return itemRegistrate.item(material + "_sword", p -> new SwordItem(tier, attackDamageModifier, attackSpeedModifier, p))
                 .properties(p->p)
                 .model((ctx, p) -> p.withExistingParent(ctx.getName(), "item/handheld").texture("layer0", "item/" + material + "_sword"))
                 .register();
     }
-    public static ItemEntry<PickaxeItem> pickaxe(String material, Tier tier, int pAttackDamageModifier, float pAttackSpeedModifier) {
-        return itemRegistrate.item(material + "_pickaxe", p -> new PickaxeItem(tier, pAttackDamageModifier, pAttackSpeedModifier, p))
+    public static ItemEntry<PickaxeItem> pickaxe(String material, Tier tier, int attackDamageModifier, float attackSpeedModifier) {
+        return itemRegistrate.item(material + "_pickaxe", p -> new PickaxeItem(tier, attackDamageModifier, attackSpeedModifier, p))
                 .properties(p->p)
                 .model((ctx, p) -> p.withExistingParent(ctx.getName(), "item/handheld").texture("layer0", "item/" + material + "_pickaxe"))
                 .register();
     }
-    public static ItemEntry<AxeItem> axe(String material, Tier tier, float pAttackDamageModifier, float pAttackSpeedModifier) {
-        return itemRegistrate.item(material + "_axe", p -> new AxeItem(tier, pAttackDamageModifier, pAttackSpeedModifier, p))
+    public static ItemEntry<AxeItem> axe(String material, Tier tier, float attackDamageModifier, float attackSpeedModifier) {
+        return itemRegistrate.item(material + "_axe", p -> new AxeItem(tier, attackDamageModifier, attackSpeedModifier, p))
                 .properties(p->p)
                 .model((ctx, p) -> p.withExistingParent(ctx.getName(), "item/handheld").texture("layer0", "item/" + material + "_axe"))
                 .register();
     }
-    public static ItemEntry<ShovelItem> shovel(String material, Tier tier, float pAttackDamageModifier, float pAttackSpeedModifier) {
-        return itemRegistrate.item(material + "_shovel", p -> new ShovelItem(tier, pAttackDamageModifier, pAttackSpeedModifier, p))
+    public static ItemEntry<ShovelItem> shovel(String material, Tier tier, float attackDamageModifier, float attackSpeedModifier) {
+        return itemRegistrate.item(material + "_shovel", p -> new ShovelItem(tier, attackDamageModifier, attackSpeedModifier, p))
                 .properties(p->p)
                 .model((ctx, p) -> p.withExistingParent(ctx.getName(), "item/handheld")
                         .texture("layer0", "item/" + material + "_shovel"))
                 .register();
     }
-    public static ItemEntry<HoeItem> hoe(String material, Tier tier, int attackDamageBaseline, float attackSpeed) {
-        return itemRegistrate.item(material + "_hoe", p -> new HoeItem(tier, attackDamageBaseline, attackSpeed, p))
+    public static ItemEntry<HoeItem> hoe(String material, Tier tier, int attackDamageModifier, float attackSpeedModifier) {
+        return itemRegistrate.item(material + "_hoe", p -> new HoeItem(tier, attackDamageModifier, attackSpeedModifier, p))
                 .properties(p->p)
                 .model((ctx, p) -> p.withExistingParent(ctx.getName(), "item/handheld").texture("layer0", "item/" + material + "_hoe"))
                 .register();
