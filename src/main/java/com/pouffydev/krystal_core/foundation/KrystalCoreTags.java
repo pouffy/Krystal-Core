@@ -4,6 +4,7 @@ import com.pouffydev.krystal_core.KrystalCore;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.builders.ItemBuilder;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
+import net.minecraft.client.renderer.entity.FoxRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BlockItem;
@@ -17,10 +18,8 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import java.util.Collections;
 
 public class KrystalCoreTags {
-    public static <T extends IForgeRegistryEntry<T>> TagKey<T> optionalTag(IForgeRegistry<T> registry,
-                                                                           ResourceLocation id) {
-        return registry.tags()
-                .createOptionalTagKey(id, Collections.emptySet());
+    public static <T extends IForgeRegistryEntry<T>> TagKey<T> optionalTag(IForgeRegistry<T> registry, ResourceLocation id) {
+        return registry.tags().createOptionalTagKey(id, Collections.emptySet());
     }
     public static <T extends IForgeRegistryEntry<T>> TagKey<T> minecraftTag(IForgeRegistry<T> registry, String path) {
         return optionalTag(registry, new ResourceLocation("minecraft", path));

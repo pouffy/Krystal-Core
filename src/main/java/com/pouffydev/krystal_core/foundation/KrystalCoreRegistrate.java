@@ -1,8 +1,14 @@
 package com.pouffydev.krystal_core.foundation;
 
 import com.tterrag.registrate.AbstractRegistrate;
+import com.tterrag.registrate.builders.FluidBuilder;
+import com.tterrag.registrate.util.nullness.NonNullBiFunction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fluids.FluidAttributes;
+import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.DistExecutor;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,5 +36,13 @@ public class KrystalCoreRegistrate extends AbstractRegistrate<KrystalCoreRegistr
     }
     protected static void onServer(Supplier<Runnable> toRun) {
         DistExecutor.unsafeRunWhenOn(Dist.DEDICATED_SERVER, toRun);
+    }
+    
+    public FluidBuilder<ForgeFlowingFluid.Flowing, KrystalCoreRegistrate> standardMWFluid(String name, String ID) {
+        return fluid(name, new ResourceLocation(ID, "fluid/" + name + "/still"), new ResourceLocation(ID, "fluid/" + name + "/flowing"));
+    }
+    
+    public FluidBuilder<ForgeFlowingFluid.Flowing, KrystalCoreRegistrate> standardMWFluid(String name, String ID, NonNullBiFunction<FluidAttributes.Builder, Fluid, FluidAttributes> attributesFactory) {
+        return fluid(name, new ResourceLocation(ID, "fluid/" + name + "/still"), new ResourceLocation(ID, "fluid/" + name + "/flowing"), attributesFactory);
     }
 }

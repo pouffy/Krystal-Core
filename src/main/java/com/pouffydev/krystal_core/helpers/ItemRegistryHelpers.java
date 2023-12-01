@@ -72,8 +72,6 @@ public class ItemRegistryHelpers {
                 .tag(rawMaterials())
                 .register();
     }
-    
-    
     /**
         Kinda random, but Sturdy & Reinforced sheets are used in both Milkyway Core and Krystal's Material Compats, so I'm putting them here.
      */
@@ -99,6 +97,12 @@ public class ItemRegistryHelpers {
     public static ItemEntry<Item> reprocessedSheet(String material) {
         return itemRegistrate.item("reprocessed_" + material + "_sheet", Item::new)
                 .properties(p->p).register();
+    }
+    public static ItemEntry<Item> countedItem(String name) {
+        return itemRegistrate
+                .item(name, Item::new)
+                .model(KrystalCoreAssetLookup.countedItem())
+                .register();
     }
     
     /**

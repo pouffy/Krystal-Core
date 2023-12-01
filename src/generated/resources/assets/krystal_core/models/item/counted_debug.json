@@ -1,0 +1,38 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "krystal_core:item/counted_debug_count4"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "krystal_core:count": 0.0
+      },
+      "model": "krystal_core:item/counted_debug_0"
+    },
+    {
+      "predicate": {
+        "krystal_core:count": 0.03125
+      },
+      "model": "krystal_core:item/counted_debug_1"
+    },
+    {
+      "predicate": {
+        "krystal_core:count": 0.25
+      },
+      "model": "krystal_core:item/counted_debug_2"
+    },
+    {
+      "predicate": {
+        "krystal_core:count": 0.5
+      },
+      "model": "krystal_core:item/counted_debug_3"
+    },
+    {
+      "predicate": {
+        "krystal_core:count": 1.0
+      },
+      "model": "krystal_core:item/counted_debug_4"
+    }
+  ]
+}

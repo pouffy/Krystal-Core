@@ -4,14 +4,19 @@ import com.mojang.logging.LogUtils;
 import com.pouffydev.krystal_core.foundation.CommonEvents;
 import com.pouffydev.krystal_core.foundation.KrystalCoreRegistrate;
 //import com.pouffydev.krystal_core.helpers.data_driven.CompostableJsonListener;
+import com.pouffydev.krystal_core.foundation.data.KCRegistrateTags;
+import com.pouffydev.krystal_core.init.KCDebugItems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -19,6 +24,8 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -40,20 +47,30 @@ public class KrystalCore
      * Krystal Core's Logger
      */
     public static final Logger LOGGER = LogUtils.getLogger();
-
+    private static final boolean isDevelopmentEnvironment = !FMLEnvironment.production;
     public KrystalCore()
     {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        IEventBus forgeEventBus = MinecraftForge.EVENT_BUS;
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
         
         MinecraftForge.EVENT_BUS.register(this);
         
+        if(isDevelopmentEnvironment) {
+            KCDebugItems.register();
+        }
+        
         eventBus.addListener(CommonEvents::init);
         registrate.registerEventListeners(eventBus);
+        eventBus.addListener(EventPriority.LOWEST, KrystalCore::gatherData);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> KrystalCoreClient.onCtorClient(eventBus, forgeEventBus));
     }
-
+    
+    public static void gatherData(GatherDataEvent event) {
+        KCRegistrateTags.addGenerators();
+    }
     private void setup(final FMLCommonSetupEvent event)
     {
         LOGGER.info("HELLO FROM PREINIT");
