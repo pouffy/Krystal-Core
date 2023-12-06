@@ -4,19 +4,21 @@ buildscript {
         mavenCentral()
         jcenter()
         maven { url = 'https://repo.spongepowered.org/repository/maven-public' }
+        maven { url = 'https://maven.parchmentmc.org' }
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath "net.minecraftforge.gradle:ForgeGradle:${forgegradle_version}"
         classpath "org.spongepowered:mixingradle:${mixingradle_version}"
+        classpath "org.parchmentmc:librarian:${librarian_version}"
     }
 }
 plugins {
-    id 'eclipse'
-    id 'maven-publish'
-    id 'com.matthewprenger.cursegradle' version '1.4.0'
-    id "me.modmuss50.mod-publish-plugin" version "0.3.5"
+    id 'com.matthewprenger.cursegradle' version "${cursegradle_version}"
 }
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
 
@@ -28,7 +30,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
-    mappings channel: 'official', version: '1.18.2'
+    mappings channel: 'parchment', version: "${parchment_version}-${minecraft_version}"
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -116,8 +118,9 @@ dependencies {
 
     implementation fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
 
-    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
+    runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
 
     annotationProcessor "org.spongepowered:mixin:0.8.3:processor"
     testAnnotationProcessor "org.spongepowered:mixin:0.8.3:processor"

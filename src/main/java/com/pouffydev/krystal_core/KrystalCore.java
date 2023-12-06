@@ -3,16 +3,15 @@ package com.pouffydev.krystal_core;
 import com.mojang.logging.LogUtils;
 import com.pouffydev.krystal_core.foundation.CommonEvents;
 import com.pouffydev.krystal_core.foundation.KrystalCoreRegistrate;
-//import com.pouffydev.krystal_core.helpers.data_driven.CompostableJsonListener;
 import com.pouffydev.krystal_core.foundation.data.KCRegistrateTags;
 import com.pouffydev.krystal_core.init.KCDebugItems;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -22,10 +21,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -74,7 +71,7 @@ public class KrystalCore
     private void setup(final FMLCommonSetupEvent event)
     {
         LOGGER.info("HELLO FROM PREINIT");
-        LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+        LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getDescriptionId());
     }
 
     private void enqueueIMC(final InterModEnqueueEvent event)
@@ -93,16 +90,6 @@ public class KrystalCore
     public void onServerStarting(ServerStartingEvent event)
     {
         LOGGER.info("HELLO from server starting");
-    }
-
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class RegistryEvents
-    {
-        @SubscribeEvent
-        public static void onBlocksRegistry(final RegistryEvent.Register<Block> blockRegistryEvent)
-        {
-            LOGGER.info("HELLO from Register Block");
-        }
     }
     
     @SubscribeEvent

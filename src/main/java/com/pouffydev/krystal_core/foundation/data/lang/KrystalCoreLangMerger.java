@@ -1,18 +1,20 @@
 package com.pouffydev.krystal_core.foundation.data.lang;
 
+import com.google.common.hash.Hashing;
+import com.google.common.hash.HashingOutputStream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.pouffydev.krystal_core.KrystalCore;
+import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.HashCache;
 import net.minecraft.util.GsonHelper;
 import org.apache.commons.lang3.mutable.MutableObject;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -62,7 +64,7 @@ public class KrystalCoreLangMerger implements DataProvider {
     }
     
     @Override
-    public void run(HashCache cache) throws IOException {
+    public void run(CachedOutput cache) throws IOException {
         Path path = this.gen.getOutputFolder()
                 .resolve("assets/" + modid + "/lang/" + "en_us.json");
         
@@ -145,21 +147,18 @@ public class KrystalCoreLangMerger implements DataProvider {
                     .getAsJsonObject());
     }
     
-    private void save(HashCache cache, List<Object> dataIn, Path target, String message)
+    @SuppressWarnings("deprecation")
+    private void save(CachedOutput cache, List<Object> dataIn, Path target, String message)
             throws IOException {
-        String data = createString(dataIn);
-        String hash = DataProvider.SHA1.hashUnencodedChars(data)
-                .toString();
-        if (!Objects.equals(cache.getHash(target), hash) || !Files.exists(target)) {
-            Files.createDirectories(target.getParent());
-            
-            try (BufferedWriter bufferedwriter = Files.newBufferedWriter(target)) {
-                KrystalCore.LOGGER.info(message);
-                bufferedwriter.write(data);
-            }
-        }
         
-        cache.putNew(target, hash);
+        ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
+        HashingOutputStream hashingoutputstream = new HashingOutputStream(Hashing.sha1(), bytearrayoutputstream);
+        
+        Writer writer = new OutputStreamWriter(hashingoutputstream, StandardCharsets.UTF_8);
+        writer.append(createString(dataIn));
+        writer.close();
+        
+        cache.writeIfNeeded(target, bytearrayoutputstream.toByteArray(), hashingoutputstream.hash());
     }
     
     protected String createString(List<Object> data) {
