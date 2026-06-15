@@ -1,106 +1,155 @@
 package com.pouffydev.krystal_core;
 
 import com.mojang.logging.LogUtils;
-import com.pouffydev.krystal_core.foundation.CommonEvents;
-import com.pouffydev.krystal_core.foundation.KrystalCoreRegistrate;
-import com.pouffydev.krystal_core.foundation.data.KCRegistrateTags;
-import com.pouffydev.krystal_core.init.KCDebugItems;
+import com.pouffydev.krystal_core.content.KrystalAttachmentTypes;
+import com.pouffydev.krystal_core.content.KrystalDataComponents;
+import com.pouffydev.krystal_core.core.event.KCEventHandler;
+import com.pouffydev.krystal_core.core.registry.RegistryHelper;
+import com.pouffydev.krystal_core.datagen.KCDataGenerator;
+import com.pouffydev.krystal_core.foundation.data.RegistryAccessJsonReloadListener;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.InterModComms;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.material.Fluid;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.SoundActions;
+import net.neoforged.neoforge.event.TagsUpdatedEvent;
+import net.neoforged.neoforge.fluids.BaseFlowingFluid;
+import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import net.neoforged.neoforge.registries.RegisterEvent;
 import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 
-import java.util.stream.Collectors;
+import java.util.Objects;
+import java.util.function.Supplier;
 
 @Mod(KrystalCore.ID)
-public class KrystalCore
-{
+public class KrystalCore {
+    /**
+     * The instance of Krystal Core
+     */
+    private static KrystalCore INSTANCE;
     /**
      * Krystal Core's Mod ID
      */
     public static final String ID = "krystal_core";
     /**
-     * Krystal Core's Registrate
-     */
-    public static final KrystalCoreRegistrate registrate = KrystalCoreRegistrate.create(KrystalCore.ID);
-    /**
      * Krystal Core's Logger
      */
     public static final Logger LOGGER = LogUtils.getLogger();
+    /**
+     * Krystal Core's Registry Helper
+     */
     private static final boolean isDevelopmentEnvironment = !FMLEnvironment.production;
-    public KrystalCore()
-    {
-        IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        IEventBus forgeEventBus = MinecraftForge.EVENT_BUS;
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
-        
-        MinecraftForge.EVENT_BUS.register(this);
-        
+
+    private static boolean enablePowderSnowFluid = false;
+    public static final DeferredHolder<SoundEvent, SoundEvent> BUCKET_EMPTY_SNOW = DeferredHolder.create(Registries.SOUND_EVENT, location("item.bucket.empty_snow"));
+    public static final DeferredHolder<SoundEvent, SoundEvent> BUCKET_FILL_SNOW = DeferredHolder.create(Registries.SOUND_EVENT, location("item.bucket.fill_snow"));
+    public static final DeferredHolder<FluidType, FluidType> POWDER_SNOW_TYPE = DeferredHolder.create(NeoForgeRegistries.Keys.FLUID_TYPES, location("powder_snow"));
+    public static final DeferredHolder<Fluid, Fluid> POWDER_SNOW = DeferredHolder.create(Registries.FLUID, location("powder_snow"));
+    public static final DeferredHolder<Fluid, Fluid> FLOWING_POWDER_SNOW = DeferredHolder.create(Registries.FLUID, location("flowing_powder_snow"));
+    private static boolean enableHoneyFluid = false;
+    public static final DeferredHolder<SoundEvent, SoundEvent> BUCKET_EMPTY_HONEY = DeferredHolder.create(Registries.SOUND_EVENT, location("item.bucket.empty_honey"));
+    public static final DeferredHolder<SoundEvent, SoundEvent> BUCKET_FILL_HONEY = DeferredHolder.create(Registries.SOUND_EVENT, location("item.bucket.fill_honey"));
+    public static final DeferredHolder<FluidType, FluidType> HONEY_TYPE = DeferredHolder.create(NeoForgeRegistries.Keys.FLUID_TYPES, location("honey"));
+    public static final DeferredHolder<Fluid, Fluid> HONEY = DeferredHolder.create(Registries.FLUID, location("honey"));
+    public static final DeferredHolder<Fluid, Fluid> FLOWING_HONEY = DeferredHolder.create(Registries.FLUID, location("flowing_honey"));
+
+    private final IEventBus modEventBus;
+    private final RegistryHelper registryHelper;
+
+    public static void enablePowderSnowFluid() {
+        enablePowderSnowFluid = true;
+    }
+
+    public static void enableHoneyFluid() {
+        enableHoneyFluid = true;
+    }
+
+    public KrystalCore(IEventBus modEventBus, ModContainer modContainer) {
+        this.modEventBus = modEventBus;
+        INSTANCE = this;
+        this.registryHelper = new RegistryHelper(ID, modEventBus);
+        new KCEventHandler(modEventBus).register();
+        KrystalAttachmentTypes.staticInit();
+        KrystalDataComponents.staticInit();
+
+        modEventBus.addListener(this::registerFluids);
         if(isDevelopmentEnvironment) {
-            KCDebugItems.register();
+            // do dev stuff
         }
-        
-        eventBus.addListener(CommonEvents::init);
-        registrate.registerEventListeners(eventBus);
-        eventBus.addListener(EventPriority.LOWEST, KrystalCore::gatherData);
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> KrystalCoreClient.onCtorClient(eventBus, forgeEventBus));
-    }
-    
-    public static void gatherData(GatherDataEvent event) {
-        KCRegistrateTags.addGenerators();
-    }
-    private void setup(final FMLCommonSetupEvent event)
-    {
-        LOGGER.info("HELLO FROM PREINIT");
-        LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getDescriptionId());
+        NeoForge.EVENT_BUS.addListener(TagsUpdatedEvent.class, (event) -> afterDataReloadOrDataSync(event.getRegistryAccess()));
+        this.modEventBus.addListener(KCDataGenerator::gatherDataEvent);
     }
 
-    private void enqueueIMC(final InterModEnqueueEvent event)
-    {
-        InterModComms.sendTo(KrystalCore.ID, "helloworld", () -> { LOGGER.info("Hello world from the MDK"); return "Hello world";});
+    public void registerFluids(RegisterEvent event) {
+        if (enablePowderSnowFluid) {
+            event.register(Registries.SOUND_EVENT, (helper) -> {
+                helper.register(BUCKET_EMPTY_SNOW.getId(), SoundEvent.createVariableRangeEvent(BUCKET_EMPTY_SNOW.getId()));
+                helper.register(BUCKET_FILL_SNOW.getId(), SoundEvent.createVariableRangeEvent(BUCKET_FILL_SNOW.getId()));
+            });
+            event.register(NeoForgeRegistries.Keys.FLUID_TYPES, (helper) -> helper.register(POWDER_SNOW_TYPE.unwrapKey().orElseThrow(), new FluidType(FluidType.Properties.create().density(1024).viscosity(1024).sound(SoundActions.BUCKET_FILL, BUCKET_FILL_SNOW.value()).sound(SoundActions.BUCKET_EMPTY, BUCKET_EMPTY_SNOW.value()))));
+            event.register(Registries.FLUID, (helper) -> {
+                DeferredHolder<FluidType, FluidType> typeHolder = POWDER_SNOW_TYPE;
+                Objects.requireNonNull(typeHolder);
+                Supplier<FluidType> type = typeHolder::value;
+                DeferredHolder<Fluid, Fluid> stillHolder = POWDER_SNOW;
+                Objects.requireNonNull(stillHolder);
+                Supplier<Fluid> still = stillHolder::value;
+                DeferredHolder<Fluid, Fluid> flowingHolder = FLOWING_POWDER_SNOW;
+                Objects.requireNonNull(flowingHolder);
+                BaseFlowingFluid.Properties properties = (new BaseFlowingFluid.Properties(type, still, flowingHolder::value)).bucket(() -> Items.POWDER_SNOW_BUCKET);
+                helper.register(POWDER_SNOW.getId(), new BaseFlowingFluid.Source(properties));
+                helper.register(FLOWING_POWDER_SNOW.getId(), new BaseFlowingFluid.Flowing(properties));
+            });
+        }
+        if (enableHoneyFluid) {
+            event.register(Registries.SOUND_EVENT, (helper) -> {
+                helper.register(BUCKET_EMPTY_HONEY.getId(), SoundEvent.createVariableRangeEvent(BUCKET_EMPTY_HONEY.getId()));
+                helper.register(BUCKET_FILL_HONEY.getId(), SoundEvent.createVariableRangeEvent(BUCKET_FILL_HONEY.getId()));
+            });
+            event.register(NeoForgeRegistries.Keys.FLUID_TYPES, (helper) -> helper.register(POWDER_SNOW_TYPE.unwrapKey().orElseThrow(), new FluidType(FluidType.Properties.create().density(1024).viscosity(1024).sound(SoundActions.BUCKET_FILL, BUCKET_FILL_HONEY.value()).sound(SoundActions.BUCKET_EMPTY, BUCKET_EMPTY_HONEY.value()))));
+            event.register(Registries.FLUID, (helper) -> {
+                DeferredHolder<FluidType, FluidType> typeHolder = HONEY_TYPE;
+                Objects.requireNonNull(typeHolder);
+                Supplier<FluidType> type = typeHolder::value;
+                DeferredHolder<Fluid, Fluid> stillHolder = HONEY;
+                Objects.requireNonNull(stillHolder);
+                Supplier<Fluid> still = stillHolder::value;
+                DeferredHolder<Fluid, Fluid> flowingHolder = FLOWING_HONEY;
+                Objects.requireNonNull(flowingHolder);
+                BaseFlowingFluid.Properties properties = (new BaseFlowingFluid.Properties(type, still, flowingHolder::value)).bucket(() -> Items.POWDER_SNOW_BUCKET);
+                helper.register(HONEY.getId(), new BaseFlowingFluid.Source(properties));
+                helper.register(FLOWING_HONEY.getId(), new BaseFlowingFluid.Flowing(properties));
+            });
+        }
     }
 
-    private void processIMC(final InterModProcessEvent event)
-    {
-        LOGGER.info("Got IMC {}", event.getIMCStream().
-                map(m->m.messageSupplier().get()).
-                collect(Collectors.toList()));
+    private static void afterDataReloadOrDataSync(RegistryAccess registryAccess) {
+        RegistryAccessJsonReloadListener.runReloads(registryAccess);
     }
 
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event)
-    {
-        LOGGER.info("HELLO from server starting");
+    public static IEventBus getEventBus() {
+        return INSTANCE.modEventBus;
     }
-    
-    @SubscribeEvent
-    public void jsonReading(AddReloadListenerEvent event) {
-        //event.addListener(CompostableJsonListener.instance);
+
+    public static RegistryHelper getRegistryHelper() {
+        return INSTANCE.registryHelper;
     }
+
     @Contract("_ -> new")
-    public static @NotNull ResourceLocation asResource(String path) {
-        return new ResourceLocation(ID, path);
-    }
-    public static @NotNull KrystalCoreRegistrate registrate() {
-        return registrate;
+    public static ResourceLocation location(String path) {
+        if (path.contains(":")) {
+            return ResourceLocation.tryParse(path);
+        }
+        return ResourceLocation.fromNamespaceAndPath(ID, path);
     }
 }

@@ -6,7 +6,6 @@ import com.google.gson.internal.Streams;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.pouffydev.krystal_core.KrystalCore;
-import com.pouffydev.krystal_core.foundation.data.lang.KrystalCoreLang;
 import net.minecraft.nbt.CompoundTag;
 
 import java.io.BufferedReader;
@@ -17,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Locale;
 
 public class FilesHelper {
     public static void createFolderIfMissing(String name) {
@@ -40,8 +40,7 @@ public class FilesHelper {
     }
     
     public static String slug(String name) {
-        return KrystalCoreLang.asId(name)
-                .replaceAll("\\W+", "_");
+        return name.toLowerCase(Locale.ROOT).replaceAll("\\W+", "_");
     }
     
     public static boolean saveTagCompoundAsJson(CompoundTag compound, String path) {

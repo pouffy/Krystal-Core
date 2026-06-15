@@ -1,3 +1,6 @@
 {
-  "item.krystal_core.counted_debug": "Counted Debug"
+  "ui.krystal_core.soulbound": "Soulbound",
+  "ui.krystal_core.when_drank": "When Drank:",
+  "ui.krystal_core.when_eaten": "When Eaten:",
+  "ui.krystal_core.when_worn": "When Worn:"
 }
