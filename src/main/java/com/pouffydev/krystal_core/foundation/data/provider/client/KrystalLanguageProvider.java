@@ -19,7 +19,9 @@ import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.common.data.LanguageProvider;
+import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.Collection;
@@ -98,6 +100,10 @@ public abstract class KrystalLanguageProvider extends LanguageProvider {
 
     public void item(Holder<Item> itemHolder) {
         this.add(itemHolder, "item");
+    }
+
+    public void fluid(Holder<FluidType> fluidHolder) {
+        this.add(fluidHolder, "fluid_type");
     }
 
     public void enchantment(Holder<Enchantment> holder) {

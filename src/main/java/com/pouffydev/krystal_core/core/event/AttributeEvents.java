@@ -1,6 +1,7 @@
 package com.pouffydev.krystal_core.core.event;
 
 import com.pouffydev.krystal_core.content.KrystalAttributes;
+import com.pouffydev.krystal_core.content.player.attribute.AttributesHelper;
 import com.pouffydev.krystal_core.foundation.event.LivingCriticalHitEvent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,7 +24,8 @@ public class AttributeEvents {
     @SubscribeEvent
     public void drawSpeed(LivingEntityUseItemEvent.Tick event) {
         if (event.getEntity() instanceof Player player) {
-            double speed = player.getAttribute(KrystalAttributes.DRAW_SPEED).getValue() - 1;
+            AttributesHelper helper = AttributesHelper.create(player);
+            double speed = helper.getAttributeSafe(KrystalAttributes.DRAW_SPEED, 0) - 1;
             if (speed == 0 || !this.canBenefitFromDrawSpeed(event.getItem())) return;
 
             int offset = -1;

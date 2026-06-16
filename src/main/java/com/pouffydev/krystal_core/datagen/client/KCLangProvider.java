@@ -2,6 +2,7 @@ package com.pouffydev.krystal_core.datagen.client;
 
 import com.pouffydev.krystal_core.KrystalCore;
 import com.pouffydev.krystal_core.content.KrystalAttributes;
+import com.pouffydev.krystal_core.core.KCTags;
 import com.pouffydev.krystal_core.foundation.data.provider.client.KrystalLanguageProvider;
 import com.pouffydev.krystal_core.foundation.data.provider.client.KrystalSoundsProvider;
 import net.minecraft.data.PackOutput;
@@ -23,5 +24,13 @@ public class KCLangProvider extends KrystalLanguageProvider {
             this.add(registry.get().getDescriptionId(), transform(registry.get().getDescriptionId().replace("attribute.name.krystal_core.", "")));
         }
         string("item.krystal_core.font_changing.description", "Use %s on a sign to write in %s");
+        fluid(KrystalCore.HONEY_TYPE);
+        fluid(KrystalCore.POWDER_SNOW_TYPE);
+        addTag(KCTags.Fluids.HONEY::tag, "Honey");
+        addTag(KCTags.Fluids.POWDER_SNOW::tag, "Powder Snow");
+        addTag(KCTags.Entities.MAGIC_PROJECTILE::tag, "Magic Projectiles");
+        addTag(KCTags.Damage.MELEE::tag, "Melee Damage");
+        addTag(KCTags.Damage.MAGIC::tag, "Magic Damage");
+        item(KrystalCore.HONEY_BUCKET);
     }
 }

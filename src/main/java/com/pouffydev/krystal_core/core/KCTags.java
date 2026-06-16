@@ -6,11 +6,11 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.material.Fluid;
 
 public class KCTags {
 
     public enum Items {
-        USE_DURATION("attributes_affected/use_duration")
         ;
 
         private final String name;
@@ -49,6 +49,22 @@ public class KCTags {
         }
         public TagKey<DamageType> tag() {
             return TagKey.create(Registries.DAMAGE_TYPE, KrystalCore.location(this.name));
+        }
+    }
+
+    public enum Fluids {
+        HONEY("c:honey"),
+        POWDER_SNOW("c:powder_snow")
+        ;
+        private final String name;
+        Fluids(String name) {
+            this.name = name;
+        }
+        Fluids() {
+            this.name = this.name().toLowerCase();
+        }
+        public TagKey<Fluid> tag() {
+            return TagKey.create(Registries.FLUID, KrystalCore.location(this.name));
         }
     }
 }

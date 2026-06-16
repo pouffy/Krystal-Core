@@ -1,21 +1,29 @@
 package com.pouffydev.krystal_core;
 
+import com.pouffydev.krystal_core.client.model.item.CurioModel;
+import com.pouffydev.krystal_core.client.renderer.CurioRenderer;
+import com.pouffydev.krystal_core.content.item.IRenderableCurio;
 import com.pouffydev.krystal_core.content.item.exploration.NavigationHelper;
 import net.minecraft.client.renderer.item.CompassItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import top.theillusivec4.curios.api.client.CuriosRendererRegistry;
 
 @EventBusSubscriber(value = Dist.CLIENT, modid = KrystalCore.ID)
 public class KrystalCoreClient {
 
     @SubscribeEvent
     public static void clientInit(FMLClientSetupEvent event) {
+        CuriosRenderers.register();
         registerModelPredicates();
     }
 
@@ -54,5 +62,30 @@ public class KrystalCoreClient {
                 return HONEY_FLOW;
             }
         }, honeyType));
+    }
+
+    @SubscribeEvent
+    static void registerLayerDefinitions(final EntityRenderersEvent.RegisterLayerDefinitions event) {
+        CuriosRenderers.onLayerRegister(event);
+    }
+
+    public static class CuriosRenderers {
+        public static void register() {
+            for (Item item : BuiltInRegistries.ITEM.stream().toList()) {
+                if (!(item instanceof IRenderableCurio))
+                    continue;
+
+                CuriosRendererRegistry.register(item, CurioRenderer::new);
+            }
+        }
+
+        public static void onLayerRegister(final EntityRenderersEvent.RegisterLayerDefinitions event) {
+            for (Item item : BuiltInRegistries.ITEM.stream().toList()) {
+                if (!(item instanceof IRenderableCurio renderable))
+                    continue;
+
+                event.registerLayerDefinition(CurioModel.getLayerLocation(item), renderable::constructLayerDefinition);
+            }
+        }
     }
 }

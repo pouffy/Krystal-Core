@@ -4,16 +4,20 @@ import com.mojang.logging.LogUtils;
 import com.pouffydev.krystal_core.content.KrystalAttachmentTypes;
 import com.pouffydev.krystal_core.content.KrystalAttributes;
 import com.pouffydev.krystal_core.content.KrystalDataComponents;
+import com.pouffydev.krystal_core.content.item.HoneyBucketItem;
 import com.pouffydev.krystal_core.core.event.KCEventHandler;
 import com.pouffydev.krystal_core.core.registry.RegistryHelper;
 import com.pouffydev.krystal_core.datagen.KCDataGenerator;
 import com.pouffydev.krystal_core.foundation.data.RegistryAccessJsonReloadListener;
+import com.pouffydev.krystal_core.foundation.utility.CreativeTabManager;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
@@ -58,6 +62,7 @@ public class KrystalCore {
     public static final DeferredHolder<Fluid, Fluid> POWDER_SNOW = DeferredHolder.create(Registries.FLUID, location("powder_snow"));
     public static final DeferredHolder<Fluid, Fluid> FLOWING_POWDER_SNOW = DeferredHolder.create(Registries.FLUID, location("flowing_powder_snow"));
     private static boolean enableHoneyFluid = false;
+    public static final DeferredHolder<Item, HoneyBucketItem> HONEY_BUCKET = DeferredHolder.create(Registries.ITEM, location("honey_bucket"));
     public static final DeferredHolder<SoundEvent, SoundEvent> BUCKET_EMPTY_HONEY = DeferredHolder.create(Registries.SOUND_EVENT, location("item.bucket.empty_honey"));
     public static final DeferredHolder<SoundEvent, SoundEvent> BUCKET_FILL_HONEY = DeferredHolder.create(Registries.SOUND_EVENT, location("item.bucket.fill_honey"));
     public static final DeferredHolder<FluidType, FluidType> HONEY_TYPE = DeferredHolder.create(NeoForgeRegistries.Keys.FLUID_TYPES, location("honey"));
@@ -75,6 +80,8 @@ public class KrystalCore {
         enableHoneyFluid = true;
     }
 
+    private boolean buildCreative = false;
+
     public KrystalCore(IEventBus modEventBus, ModContainer modContainer) {
         this.modEventBus = modEventBus;
         INSTANCE = this;
@@ -86,7 +93,12 @@ public class KrystalCore {
 
         modEventBus.addListener(this::registerFluids);
         if(isDevelopmentEnvironment) {
-            // do dev stuff
+            enableHoneyFluid();
+            enablePowderSnowFluid();
+        }
+        if (!buildCreative) {
+            modEventBus.addListener(EventPriority.LOWEST, CreativeTabManager::buildContents);
+            buildCreative = true;
         }
         NeoForge.EVENT_BUS.addListener(TagsUpdatedEvent.class, (event) -> afterDataReloadOrDataSync(event.getRegistryAccess()));
         this.modEventBus.addListener(KCDataGenerator::gatherDataEvent);
@@ -114,11 +126,14 @@ public class KrystalCore {
             });
         }
         if (enableHoneyFluid) {
+            event.register(Registries.ITEM, (helper) -> {
+                helper.register(HONEY_BUCKET.getId(), new HoneyBucketItem(new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
+            });
             event.register(Registries.SOUND_EVENT, (helper) -> {
                 helper.register(BUCKET_EMPTY_HONEY.getId(), SoundEvent.createVariableRangeEvent(BUCKET_EMPTY_HONEY.getId()));
                 helper.register(BUCKET_FILL_HONEY.getId(), SoundEvent.createVariableRangeEvent(BUCKET_FILL_HONEY.getId()));
             });
-            event.register(NeoForgeRegistries.Keys.FLUID_TYPES, (helper) -> helper.register(POWDER_SNOW_TYPE.unwrapKey().orElseThrow(), new FluidType(FluidType.Properties.create().density(1024).viscosity(1024).sound(SoundActions.BUCKET_FILL, BUCKET_FILL_HONEY.value()).sound(SoundActions.BUCKET_EMPTY, BUCKET_EMPTY_HONEY.value()))));
+            event.register(NeoForgeRegistries.Keys.FLUID_TYPES, (helper) -> helper.register(HONEY_TYPE.unwrapKey().orElseThrow(), new FluidType(FluidType.Properties.create().density(1024).viscosity(1024).sound(SoundActions.BUCKET_FILL, BUCKET_FILL_HONEY.value()).sound(SoundActions.BUCKET_EMPTY, BUCKET_EMPTY_HONEY.value()))));
             event.register(Registries.FLUID, (helper) -> {
                 DeferredHolder<FluidType, FluidType> typeHolder = HONEY_TYPE;
                 Objects.requireNonNull(typeHolder);
@@ -128,7 +143,7 @@ public class KrystalCore {
                 Supplier<Fluid> still = stillHolder::value;
                 DeferredHolder<Fluid, Fluid> flowingHolder = FLOWING_HONEY;
                 Objects.requireNonNull(flowingHolder);
-                BaseFlowingFluid.Properties properties = (new BaseFlowingFluid.Properties(type, still, flowingHolder::value)).bucket(() -> Items.POWDER_SNOW_BUCKET);
+                BaseFlowingFluid.Properties properties = (new BaseFlowingFluid.Properties(type, still, flowingHolder::value)).bucket(HONEY_BUCKET);
                 helper.register(HONEY.getId(), new BaseFlowingFluid.Source(properties));
                 helper.register(FLOWING_HONEY.getId(), new BaseFlowingFluid.Flowing(properties));
             });

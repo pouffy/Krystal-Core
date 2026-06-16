@@ -1,0 +1,16 @@
+{
+  "values": [
+    {
+      "id": "krystal_core:honey",
+      "required": false
+    },
+    {
+      "id": "krystal_core:flowing_honey",
+      "required": false
+    },
+    {
+      "id": "#forge:honey",
+      "required": false
+    }
+  ]
+}

@@ -44,21 +44,11 @@ public class AttributesHelper {
         return sum;
     }
 
-    public float useDuration(ItemStack stack, int ticks) {
-        if (stack.is(KCTags.Items.USE_DURATION.tag())) {
-            float speedMultiplier = (float) getAttributeSafe(KrystalAttributes.DRAW_SPEED, 1.0f);
-            return speedMultiplier != 1 ? ticks * (1+(1-speedMultiplier)) : ticks;
-        }
-        return ticks;
-    }
-
     public void projectileFired(Projectile proj) {
         var damageAttribute = KrystalAttributes.RANGED_DAMAGE;
-        var critAttribute = KrystalAttributes.RANGED_CRIT_CHANCE;
         // Magical Projectiles should use magic-specific attributes. Not ranged.
         if (proj.getType().is(KCTags.Entities.MAGIC_PROJECTILE.tag())) {
             damageAttribute = KrystalAttributes.MAGIC_DAMAGE;
-            critAttribute = KrystalAttributes.MAGIC_CRIT_CHANCE;
         }
 
         proj.setData(KrystalAttachmentTypes.DAMAGE_MULTIPLIER, getAttributeSafe(damageAttribute, 1.0f));

@@ -1,0 +1,16 @@
+{
+  "values": [
+    {
+      "id": "krystal_core:powder_snow",
+      "required": false
+    },
+    {
+      "id": "krystal_core:flowing_powder_snow",
+      "required": false
+    },
+    {
+      "id": "#forge:powder_snow",
+      "required": false
+    }
+  ]
+}
