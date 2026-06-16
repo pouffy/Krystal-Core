@@ -31,7 +31,14 @@ public abstract class KrystalSoundsProvider extends SoundDefinitionsProvider {
         subtitles.add(Pair.of(soundEvent, subtitle));
     }
 
-    private SoundDefinition.Sound simpleSound(String name) {
-        return SoundDefinition.Sound.sound(ResourceLocation.fromNamespaceAndPath(modId, name), SoundDefinition.SoundType.SOUND);
+    public SoundDefinition.Sound simpleSound(String name) {
+        return SoundDefinition.Sound.sound(located(name), SoundDefinition.SoundType.SOUND);
+    }
+
+    public ResourceLocation located(String path) {
+        if (path.contains(":")) {
+            return ResourceLocation.tryParse(path);
+        }
+        return ResourceLocation.fromNamespaceAndPath(modId, path);
     }
 }
