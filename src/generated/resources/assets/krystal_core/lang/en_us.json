@@ -14,6 +14,7 @@
   "attribute.name.krystal_core.ranged_critical_strike_damage": "Ranged Critical Strike Damage",
   "attribute.name.krystal_core.ranged_damage": "Ranged Damage",
   "attribute.name.krystal_core.summon_damage": "Summon Damage",
+  "item.krystal_core.font_changing.description": "Use %s on a sign to write in %s",
   "ui.krystal_core.soulbound": "Soulbound",
   "ui.krystal_core.when_drank": "When Drank:",
   "ui.krystal_core.when_eaten": "When Eaten:",
