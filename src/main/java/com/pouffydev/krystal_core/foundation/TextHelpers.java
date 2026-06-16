@@ -6,6 +6,7 @@ import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffectUtil;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -28,6 +29,11 @@ public class TextHelpers {
 
     public static MutableComponent key(String key) {
         return Component.keybind(key).setStyle(hintStyle);
+    }
+
+    public static MutableComponent withFont(ResourceLocation font, Component in) {
+        Style oldStyle = in.getStyle();
+        return MutableComponent.create(in.getContents()).setStyle(oldStyle.withFont(font));
     }
 
     public static MutableComponent withColour(Component in, int colour) {
