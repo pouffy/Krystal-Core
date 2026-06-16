@@ -16,6 +16,7 @@ public class KCEventHandler extends EventHandler {
     @Override
     public void registerForgeEvents(IEventBus eventBus) {
         eventBus.register(new PlayerEvents());
+        eventBus.register(new ClientEvents());
         eventBus.register(new AttributeEvents());
     }
 }

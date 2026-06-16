@@ -11,7 +11,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class KrystalDataComponents {
-    public static final DeferredRegister<DataComponentType<?>> COMPONENTS = KrystalCore.getRegistryHelper().createRegister(Registries.DATA_COMPONENT_TYPE);
+    public static final DeferredRegister<DataComponentType<?>> COMPONENTS = KrystalCore.getRegistryHelper().componentsRegister();
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<BlockPos>> BLOCK_POS = COMPONENTS.register("block_pos", () -> DataComponentType.<BlockPos>builder().persistent(BlockPos.CODEC).networkSynchronized(BlockPos.STREAM_CODEC).build());
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceKey<Level>>> LEVEL_KEY = COMPONENTS.register("level_key", () -> DataComponentType.<ResourceKey<Level>>builder().persistent(ResourceKey.codec(Registries.DIMENSION)).networkSynchronized(ResourceKey.streamCodec(Registries.DIMENSION)).build());
