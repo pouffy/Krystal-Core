@@ -2,6 +2,7 @@ package com.pouffydev.krystal_core;
 
 import com.mojang.logging.LogUtils;
 import com.pouffydev.krystal_core.content.KrystalAttachmentTypes;
+import com.pouffydev.krystal_core.content.KrystalAttributes;
 import com.pouffydev.krystal_core.content.KrystalDataComponents;
 import com.pouffydev.krystal_core.core.event.KCEventHandler;
 import com.pouffydev.krystal_core.core.registry.RegistryHelper;
@@ -81,6 +82,7 @@ public class KrystalCore {
         new KCEventHandler(modEventBus).register();
         KrystalAttachmentTypes.staticInit();
         KrystalDataComponents.staticInit();
+        KrystalAttributes.staticInit();
 
         modEventBus.addListener(this::registerFluids);
         if(isDevelopmentEnvironment) {
