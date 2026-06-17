@@ -4,8 +4,11 @@
   "package": "com.pouffydev.krystal_core.foundation.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "armor.LivingEntityMixin",
+    "armor.PlayerMixin",
     "attribute.AbstractArrowMixin",
     "effect.ItemStackMixin",
+    "effect.LivingEntityMixin",
     "effect.MobEffectInstanceAccessor",
     "effect.MobEffectInstanceMixin",
     "effect.PlayerMixin",

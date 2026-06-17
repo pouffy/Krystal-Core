@@ -44,6 +44,10 @@ public interface IRenderableCurio {
         return ImmutableList.of();
     }
 
+    default List<String> hiddenLimbs() {
+        return ImmutableList.of();
+    }
+
     @OnlyIn(Dist.CLIENT)
     LayerDefinition constructLayerDefinition();
 

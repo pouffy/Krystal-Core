@@ -1,0 +1,81 @@
+package com.pouffydev.krystal_core.foundation.mixin.armor;
+
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.pouffydev.krystal_core.content.item.equipment.KrystalArmorItem;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.List;
+import java.util.function.Consumer;
+
+@Mixin(LivingEntity.class)
+public class LivingEntityMixin {
+
+    @WrapOperation(method = "actuallyHurt", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getDamageAfterMagicAbsorb(Lnet/minecraft/world/damagesource/DamageSource;F)F"))
+    private float hookDamageReduction(LivingEntity entity, DamageSource damageSource, float damage, Operation<Float> original) {
+        if (!damageSource.is(DamageTypeTags.BYPASSES_ARMOR))
+            damage = krystalCore$handleDamageReduction(entity, damageSource, damage);
+
+        return original.call(entity, damageSource, damage);
+    }
+
+    @Unique
+    private float krystalCore$handleDamageReduction(LivingEntity victim, DamageSource damageSource, float damage) {
+        final List<Consumer<Float>> attackerCallbacks = new ObjectArrayList<>();
+        final List<Consumer<Float>> victimCallbacks = new ObjectArrayList<>();
+
+        if (damageSource.getEntity() instanceof LivingEntity attacker) {
+            for (ItemStack armor : victim.getArmorSlots()) {
+                if (armor.getItem() instanceof KrystalArmorItem armorItem) {
+                    damage = armorItem.modifyOutgoingAttackDamage(attacker, victim, damageSource, damage);
+                    attackerCallbacks.add(dmg -> armorItem.afterOutgoingAttack(attacker, victim, damageSource, dmg));
+                }
+            }
+        }
+
+        for (ItemStack armor : victim.getArmorSlots()) {
+            if (armor.getItem() instanceof KrystalArmorItem armorItem) {
+                damage = armorItem.modifyIncomingAttackDamage(victim, damageSource, damage);
+                victimCallbacks.add(dmg -> armorItem.afterIncomingAttack(victim, damageSource, dmg));
+            }
+        }
+
+        if (damage > 0) {
+            for (Consumer<Float> consumer : attackerCallbacks) {
+                consumer.accept(damage);
+            }
+
+            for (Consumer<Float> consumer : victimCallbacks) {
+                consumer.accept(damage);
+            }
+        }
+
+        return damage;
+    }
+
+    @Inject(method = "hurt", at = @At(value = "HEAD"), cancellable = true)
+    private void checkCancellation(DamageSource damageSource, float damage, CallbackInfoReturnable<Boolean> callback) {
+        if (krystalCore$checkAttackCancellation((LivingEntity)(Object)this, damageSource, damage))
+            callback.setReturnValue(false);
+    }
+
+    @Unique
+    private boolean krystalCore$checkAttackCancellation(LivingEntity victim, DamageSource damageSource, float damage) {
+        for (ItemStack armor : victim.getArmorSlots()) {
+            if (armor.getItem() instanceof KrystalArmorItem armorItem)
+                if (!armorItem.beforeIncomingAttack(victim, damageSource, damage))
+                    return true;
+        }
+
+        return false;
+    }
+}
