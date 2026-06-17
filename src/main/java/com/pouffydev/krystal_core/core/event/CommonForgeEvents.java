@@ -1,14 +1,18 @@
 package com.pouffydev.krystal_core.core.event;
 
 import com.pouffydev.krystal_core.KrystalCore;
+import com.pouffydev.krystal_core.content.KrystalBlockEntities;
+import com.pouffydev.krystal_core.content.block.suspicious.SuspiciousBlock;
 import com.pouffydev.krystal_core.content.effect.IDamageAltering;
 import com.pouffydev.krystal_core.content.player.attribute.AttributesHelper;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
@@ -43,6 +47,15 @@ public class CommonForgeEvents {
         }
         if (KrystalCore.POWDER_SNOW.isBound()) {
             event.registerItem(Capabilities.FluidHandler.ITEM, (stack, ctx) -> new FluidBucketWrapper(stack), Items.POWDER_SNOW_BUCKET);
+        }
+    }
+
+    @SubscribeEvent
+    public static void addBlocksToEntity(BlockEntityTypeAddBlocksEvent event) {
+        for (var block : BuiltInRegistries.BLOCK) {
+            if (block instanceof SuspiciousBlock suspiciousBlock) {
+                event.modify(KrystalBlockEntities.SUSPICIOUS_BLOCK.get(), suspiciousBlock);
+            }
         }
     }
 }

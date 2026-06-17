@@ -3,6 +3,7 @@ package com.pouffydev.krystal_core;
 import com.mojang.logging.LogUtils;
 import com.pouffydev.krystal_core.content.KrystalAttachmentTypes;
 import com.pouffydev.krystal_core.content.KrystalAttributes;
+import com.pouffydev.krystal_core.content.KrystalBlockEntities;
 import com.pouffydev.krystal_core.content.KrystalDataComponents;
 import com.pouffydev.krystal_core.content.item.HoneyBucketItem;
 import com.pouffydev.krystal_core.core.event.KCEventHandler;
@@ -86,6 +87,7 @@ public class KrystalCore {
         KrystalAttachmentTypes.staticInit();
         KrystalDataComponents.staticInit();
         KrystalAttributes.staticInit();
+        KrystalBlockEntities.staticInit();
 
         modEventBus.addListener(this::registerFluids);
         if(isDevelopmentEnvironment) {

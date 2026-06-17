@@ -2,8 +2,11 @@ package com.pouffydev.krystal_core;
 
 import com.pouffydev.krystal_core.client.model.item.CurioModel;
 import com.pouffydev.krystal_core.client.renderer.CurioRenderer;
+import com.pouffydev.krystal_core.client.renderer.block.SuspiciousBlockEntityRenderer;
+import com.pouffydev.krystal_core.content.KrystalBlockEntities;
 import com.pouffydev.krystal_core.content.item.IRenderableCurio;
 import com.pouffydev.krystal_core.content.item.exploration.NavigationHelper;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.item.CompassItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -25,6 +28,8 @@ public class KrystalCoreClient {
     public static void clientInit(FMLClientSetupEvent event) {
         CuriosRenderers.register();
         registerModelPredicates();
+
+        BlockEntityRenderers.register(KrystalBlockEntities.SUSPICIOUS_BLOCK.get(), SuspiciousBlockEntityRenderer::new);
     }
 
     public static void registerModelPredicates() {
