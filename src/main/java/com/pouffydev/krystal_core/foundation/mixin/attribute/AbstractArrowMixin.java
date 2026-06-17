@@ -1,4 +1,4 @@
-package com.pouffydev.krystal_core.foundation.mixin;
+package com.pouffydev.krystal_core.foundation.mixin.attribute;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.pouffydev.krystal_core.content.player.attribute.AttributesHelper;

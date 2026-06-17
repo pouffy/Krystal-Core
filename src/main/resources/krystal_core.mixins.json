@@ -4,8 +4,15 @@
   "package": "com.pouffydev.krystal_core.foundation.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "AbstractArrowMixin"
+    "attribute.AbstractArrowMixin",
+    "effect.ItemStackMixin",
+    "effect.MobEffectInstanceAccessor",
+    "effect.MobEffectInstanceMixin",
+    "effect.PlayerMixin",
+    "effect.PotionContentsMixin"
   ],
   "client": [
+    "effect.client.EffectRenderingInventoryScreenMixin",
+    "effect.client.GuiMixin"
   ]
 }

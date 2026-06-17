@@ -1,6 +1,7 @@
 package com.pouffydev.krystal_core.core.event;
 
 import com.pouffydev.krystal_core.KrystalCore;
+import com.pouffydev.krystal_core.content.effect.IDamageAltering;
 import com.pouffydev.krystal_core.content.player.attribute.AttributesHelper;
 import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.EventPriority;
@@ -9,6 +10,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 import net.neoforged.neoforge.fluids.capability.wrappers.FluidBucketWrapper;
 
@@ -23,6 +25,15 @@ public class CommonForgeEvents {
     @SubscribeEvent
     public static void incomingDamage(LivingIncomingDamageEvent event) {
         AttributesHelper.incomingDamage(event);
+    }
+
+    @SubscribeEvent
+    public static void onHurt(LivingDamageEvent.Pre event) {
+        event.getEntity().getActiveEffectsMap().forEach((effect, inst) -> {
+            if (effect.value() instanceof IDamageAltering damageAltering) {
+                damageAltering.modifyDamage(event, inst.getAmplifier());
+            }
+        });
     }
 
     @SubscribeEvent(priority = EventPriority.LOW)
