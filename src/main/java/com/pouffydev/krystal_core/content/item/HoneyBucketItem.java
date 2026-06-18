@@ -19,6 +19,7 @@ public class HoneyBucketItem extends Item {
     public HoneyBucketItem(Item.Properties properties) {
         super(properties);
         CreativeTabManager.addNextToItem(CreativeModeTabs.TOOLS_AND_UTILITIES, this, Items.MILK_BUCKET, false);
+        CreativeTabManager.addNextToItem(CreativeModeTabs.FOOD_AND_DRINKS, this, Items.MILK_BUCKET, false);
     }
 
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entityLiving) {
