@@ -37,7 +37,7 @@ public class ClientEvents {
     }
 
     @SubscribeEvent
-    public static void onRenderPlayerPre(RenderPlayerEvent.Pre event) {
+    public void onRenderPlayerPre(RenderPlayerEvent.Pre event) {
         Player player = event.getEntity();
         boolean hideHead = false, hideHat = false, hideBody = false, hideLeftArm = false, hideRightArm = false, hideLeftLeg = false, hideRightLeg = false;
         var inventoryOp = CuriosApi.getCuriosInventory(player);

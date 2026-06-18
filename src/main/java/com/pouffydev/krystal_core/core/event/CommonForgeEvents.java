@@ -5,13 +5,18 @@ import com.pouffydev.krystal_core.content.KrystalBlockEntities;
 import com.pouffydev.krystal_core.content.block.suspicious.SuspiciousBlock;
 import com.pouffydev.krystal_core.content.effect.IDamageAltering;
 import com.pouffydev.krystal_core.content.player.attribute.AttributesHelper;
+import com.pouffydev.krystal_core.foundation.dynamicpack.KrystalPackSource;
+import com.pouffydev.krystal_core.foundation.dynamicpack.data.BundleDynamicDataPack;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
@@ -56,6 +61,17 @@ public class CommonForgeEvents {
             if (block instanceof SuspiciousBlock suspiciousBlock) {
                 event.modify(KrystalBlockEntities.SUSPICIOUS_BLOCK.get(), suspiciousBlock);
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void addPackFinders(AddPackFindersEvent event) {
+        if (event.getPackType() == PackType.SERVER_DATA) {
+            BundleDynamicDataPack.clearServer();
+            event.addRepositorySource(new KrystalPackSource("krystal_core:dynamic_bundle_data",
+                    event.getPackType(),
+                    Pack.Position.BOTTOM,
+                    BundleDynamicDataPack::new));
         }
     }
 }

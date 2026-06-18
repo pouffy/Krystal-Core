@@ -5,11 +5,12 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.Event;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
 public class AddBoatTypesEvent extends Event {
-    public List<Entry> entries;
+    public List<Entry> entries = new ArrayList<>();
 
     public void register(String name, Supplier<Block> planks, Supplier<Item> stickItem, Supplier<Item> boatItem, Supplier<Item> chestBoatItem, boolean raft) {
         this.entries.add(new Entry(name, planks, stickItem, boatItem, chestBoatItem, raft));

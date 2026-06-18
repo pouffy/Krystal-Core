@@ -2,6 +2,7 @@ plugins {
     id("java-library")
     id("maven-publish")
     id("net.neoforged.moddev") version "2.0.30-beta"
+    id("io.freefair.lombok") version "8.11"
 }
 
 val baseArchivesName = project.property("mod_id").toString()
@@ -106,6 +107,10 @@ repositories {
         name = "EMI Maven"
         url = uri("https://maven.terraformersmc.com/")
     }
+    maven {
+        name = "DevAuth Maven"
+        url = uri("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")
+    }
 }
 
 dependencies {
@@ -114,6 +119,9 @@ dependencies {
 
     compileOnlyApi("dev.emi:emi-neoforge:${property("emi_version")}:api")
     localRuntime("dev.emi:emi-neoforge:${property("emi_version")}")
+
+    implementation("org.projectlombok:lombok:1.18.46")
+    runtimeOnly("me.djtheredstoner:DevAuth-neoforge:1.2.1")
 }
 
 val generateModMetadata by tasks.registering(ProcessResources::class) {
