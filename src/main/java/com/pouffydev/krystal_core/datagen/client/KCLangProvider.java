@@ -23,6 +23,7 @@ public class KCLangProvider extends KrystalLanguageProvider {
         for (DeferredHolder<Attribute, ? extends Attribute> registry : KrystalAttributes.ATTRIBUTES.getEntries()) {
             this.add(registry.get().getDescriptionId(), transform(registry.get().getDescriptionId().replace("attribute.name.krystal_core.", "")));
         }
+        string("dynamicpack.krystal_core.dynamic_bundle_data", "Dynamic Bundle Data");
         string("item.krystal_core.font_changing.description", "Use %s on a sign to write in %s");
         fluid(KrystalCore.HONEY_TYPE);
         fluid(KrystalCore.POWDER_SNOW_TYPE);

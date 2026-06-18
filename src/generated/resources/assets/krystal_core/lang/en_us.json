@@ -14,6 +14,7 @@
   "attribute.name.krystal_core.ranged_critical_strike_damage": "Ranged Critical Strike Damage",
   "attribute.name.krystal_core.ranged_damage": "Ranged Damage",
   "attribute.name.krystal_core.summon_damage": "Summon Damage",
+  "dynamicpack.krystal_core.dynamic_bundle_data": "Dynamic Bundle Data",
   "fluid_type.krystal_core.honey": "Honey",
   "fluid_type.krystal_core.powder_snow": "Powder Snow",
   "item.krystal_core.font_changing.description": "Use %s on a sign to write in %s",

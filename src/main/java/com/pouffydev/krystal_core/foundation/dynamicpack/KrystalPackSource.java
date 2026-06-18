@@ -2,6 +2,7 @@ package com.pouffydev.krystal_core.foundation.dynamicpack;
 
 import lombok.RequiredArgsConstructor;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackSelectionConfig;
@@ -30,7 +31,7 @@ public class KrystalPackSource implements RepositorySource {
     @Override
     public void loadPacks(Consumer<Pack> onLoad) {
         onLoad.accept(Pack.readMetaAndCreate(
-                new PackLocationInfo(name, Component.literal(name), PackSource.BUILT_IN, Optional.empty()),
+                new PackLocationInfo(name, Component.translatable(ResourceLocation.parse(name).toLanguageKey("dynamicpack")), PackSource.BUILT_IN, Optional.empty()),
                 new Pack.ResourcesSupplier() {
 
                     @Override
