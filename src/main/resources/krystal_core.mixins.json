@@ -7,12 +7,14 @@
     "armor.LivingEntityMixin",
     "armor.PlayerMixin",
     "attribute.AbstractArrowMixin",
+    "boat.BoatTypeMixin",
     "effect.ItemStackMixin",
     "effect.LivingEntityMixin",
     "effect.MobEffectInstanceAccessor",
     "effect.MobEffectInstanceMixin",
     "effect.PlayerMixin",
-    "effect.PotionContentsMixin"
+    "effect.PotionContentsMixin",
+    "rarity.RarityMixin"
   ],
   "client": [
     "effect.client.EffectRenderingInventoryScreenMixin",
