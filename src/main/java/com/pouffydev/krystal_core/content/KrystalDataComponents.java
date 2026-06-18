@@ -1,6 +1,7 @@
 package com.pouffydev.krystal_core.content;
 
 import com.pouffydev.krystal_core.KrystalCore;
+import com.pouffydev.krystal_core.content.item.UseRemainder;
 import com.pouffydev.krystal_core.content.player.soulbound.Soulbound;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentType;
@@ -17,6 +18,7 @@ public class KrystalDataComponents {
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<ResourceKey<Level>>> LEVEL_KEY = COMPONENTS.register("level_key", () -> DataComponentType.<ResourceKey<Level>>builder().persistent(ResourceKey.codec(Registries.DIMENSION)).networkSynchronized(ResourceKey.streamCodec(Registries.DIMENSION)).build());
 
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<Soulbound>> SOULBOUND = COMPONENTS.register("soulbound", () -> DataComponentType.<Soulbound>builder().persistent(Soulbound.CODEC).networkSynchronized(Soulbound.STREAM_CODEC).build());
+    public static final DeferredHolder<DataComponentType<?>, DataComponentType<UseRemainder>> USE_REMAINDER = COMPONENTS.register("use_remainder", () -> DataComponentType.<UseRemainder>builder().persistent(UseRemainder.CODEC).networkSynchronized(UseRemainder.STREAM_CODEC).build());
 
     public static void staticInit() {}
 }

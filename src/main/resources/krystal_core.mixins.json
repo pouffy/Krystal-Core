@@ -17,7 +17,9 @@
     "effect.MobEffectInstanceMixin",
     "effect.PlayerMixin",
     "effect.PotionContentsMixin",
-    "rarity.RarityMixin"
+    "rarity.RarityMixin",
+    "remainder.ItemMixin",
+    "remainder.ItemStackMixin"
   ],
   "client": [
     "effect.client.EffectRenderingInventoryScreenMixin",
