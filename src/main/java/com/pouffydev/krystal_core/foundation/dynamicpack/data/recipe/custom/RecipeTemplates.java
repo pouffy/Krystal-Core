@@ -1,11 +1,13 @@
 package com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom;
 
+import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.caupona.DoliumRestingRecipe;
 import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.farmersdelight.*;
 import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.create.CreateRecipe;
 import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.create.VatRecipe;
 
 import static com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.create.CreateRecipe.*;
 
+@SuppressWarnings("unused")
 public class RecipeTemplates {
 
     public static class Create {
@@ -32,6 +34,12 @@ public class RecipeTemplates {
         public static CreateRecipe POLARIZING = new SimpleCreateRecipe("tfmg:polarizing", 1, 1, false, true);
         public static CreateRecipe VAT_MACHINE = new VatRecipe();
         public static CreateRecipe WINDING = new SimpleCreateRecipe("tfmg:winding", 2, 1, false, true);
+        // Dreams & Desires
+        public static CreateRecipe HYDRAULIC_COMPACTING = new SimpleCreateRecipe("dndesires:hydraulic_compacting", 64, 4, true, true, 2, 2);
+        public static CreateRecipe DRAGON_BREATHING = new SimpleCreateRecipe("dndesires:dragon_breathing", 1, 12);
+        public static CreateRecipe SANDING = new SimpleCreateRecipe("dndesires:sanding", 1, 12);
+        public static CreateRecipe FREEZING = new SimpleCreateRecipe("dndesires:freezing", 1, 12);
+        public static CreateRecipe SEETHING = new SimpleCreateRecipe("dndesires:seething", 1, 12);
     }
     public static class FarmersDelight {
         // Farmer's Delight
@@ -42,5 +50,7 @@ public class RecipeTemplates {
         public static KegFermentingRecipe KEG_FERMENTING = new KegFermentingRecipe();
         // Dungeons Delight
         public static MonsterCookingRecipe MONSTER_COOKING = new MonsterCookingRecipe();
+        // Caupona
+        public static DoliumRestingRecipe DOLIUM_RESTING = new DoliumRestingRecipe();
     }
 }

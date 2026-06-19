@@ -1,4 +1,4 @@
-package com.pouffydev.krystal_core.foundation.data;
+package com.pouffydev.krystal_core.foundation.data.recipe.result;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

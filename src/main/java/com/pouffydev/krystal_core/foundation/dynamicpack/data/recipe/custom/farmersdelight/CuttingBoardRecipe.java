@@ -4,7 +4,7 @@ package com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.far
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;
-import com.pouffydev.krystal_core.foundation.data.ChanceResult;
+import com.pouffydev.krystal_core.foundation.data.recipe.result.ChanceResult;
 import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.CustomRecipe;
 import lombok.Getter;
 import net.minecraft.core.NonNullList;

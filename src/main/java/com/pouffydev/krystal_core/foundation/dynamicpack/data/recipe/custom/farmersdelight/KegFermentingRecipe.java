@@ -7,7 +7,9 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.CustomRecipe;
 import lombok.Getter;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.Item;
@@ -17,6 +19,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 
 import java.util.ArrayList;
@@ -112,6 +115,21 @@ public class KegFermentingRecipe extends CustomRecipe<KegWrapper> {
             ingredients.set(ingredientCount, ingredientIn);
             ++ingredientCount;
         }
+        return this;
+    }
+
+    public KegFermentingRecipe addFluidIngredient(Fluid fluid, int i) {
+        fluidIngredient = Optional.of(SizedFluidIngredient.of(fluid, i));
+        return this;
+    }
+
+    public KegFermentingRecipe addFluidIngredient(TagKey<Fluid> fluid, int i) {
+        fluidIngredient = Optional.of(SizedFluidIngredient.of(fluid, i));
+        return this;
+    }
+
+    public KegFermentingRecipe addFluidIngredient(FluidIngredient ingredient, int i) {
+        fluidIngredient = Optional.of(new SizedFluidIngredient(ingredient, i));
         return this;
     }
 
