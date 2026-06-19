@@ -1,4 +1,4 @@
-package com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom;
+package com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.create;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;

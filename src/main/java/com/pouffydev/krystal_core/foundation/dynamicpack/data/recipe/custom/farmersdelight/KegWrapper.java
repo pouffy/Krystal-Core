@@ -1,4 +1,4 @@
-package com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.bnc;
+package com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.farmersdelight;
 
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.neoforged.neoforge.fluids.FluidStack;

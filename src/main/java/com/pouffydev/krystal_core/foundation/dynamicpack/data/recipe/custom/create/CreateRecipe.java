@@ -1,4 +1,4 @@
-package com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom;
+package com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.create;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -6,7 +6,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.pouffydev.krystal_core.KrystalCore;
-import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.bnc.KegPouringRecipe;
+import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.CustomRecipe;
 import lombok.Getter;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentPatch;

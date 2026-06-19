@@ -1,4 +1,4 @@
-package com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.bnc;
+package com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.farmersdelight;
 
 import com.google.gson.JsonObject;
 import com.mojang.serialization.JsonOps;

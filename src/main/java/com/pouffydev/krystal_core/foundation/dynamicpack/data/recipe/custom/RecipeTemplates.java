@@ -1,9 +1,10 @@
 package com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom;
 
-import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.bnc.KegFermentingRecipe;
-import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.bnc.KegPouringRecipe;
+import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.farmersdelight.*;
+import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.create.CreateRecipe;
+import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.create.VatRecipe;
 
-import static com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.CreateRecipe.*;
+import static com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.create.CreateRecipe.*;
 
 public class RecipeTemplates {
 
@@ -33,8 +34,13 @@ public class RecipeTemplates {
         public static CreateRecipe WINDING = new SimpleCreateRecipe("tfmg:winding", 2, 1, false, true);
     }
     public static class FarmersDelight {
+        // Farmer's Delight
+        public static CookingPotRecipe COOKING = new CookingPotRecipe();
+        public static CuttingBoardRecipe CUTTING = new CuttingBoardRecipe();
         // Brewin & Chewin
         public static KegPouringRecipe KEG_POURING = new KegPouringRecipe();
         public static KegFermentingRecipe KEG_FERMENTING = new KegFermentingRecipe();
+        // Dungeons Delight
+        public static MonsterCookingRecipe MONSTER_COOKING = new MonsterCookingRecipe();
     }
 }
