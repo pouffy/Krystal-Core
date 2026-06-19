@@ -1,4 +1,4 @@
-package com.pouffydev.krystal_core.core.registry;
+package com.pouffydev.krystal_core.foundation.event;
 
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.NeoForge;

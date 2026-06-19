@@ -1,6 +1,6 @@
 package com.pouffydev.krystal_core.core.event;
 
-import com.pouffydev.krystal_core.core.registry.EventHandler;
+import com.pouffydev.krystal_core.foundation.event.EventHandler;
 import net.neoforged.bus.api.IEventBus;
 
 public class KCEventHandler extends EventHandler {
