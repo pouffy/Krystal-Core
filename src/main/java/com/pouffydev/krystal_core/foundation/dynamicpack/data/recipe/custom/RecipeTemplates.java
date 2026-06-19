@@ -1,5 +1,8 @@
 package com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom;
 
+import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.bnc.KegFermentingRecipe;
+import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.bnc.KegPouringRecipe;
+
 import static com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.CreateRecipe.*;
 
 public class RecipeTemplates {
@@ -28,5 +31,10 @@ public class RecipeTemplates {
         public static CreateRecipe POLARIZING = new SimpleCreateRecipe("tfmg:polarizing", 1, 1, false, true);
         public static CreateRecipe VAT_MACHINE = new VatRecipe();
         public static CreateRecipe WINDING = new SimpleCreateRecipe("tfmg:winding", 2, 1, false, true);
+    }
+    public static class FarmersDelight {
+        // Brewin & Chewin
+        public static KegPouringRecipe KEG_POURING = new KegPouringRecipe();
+        public static KegFermentingRecipe KEG_FERMENTING = new KegFermentingRecipe();
     }
 }

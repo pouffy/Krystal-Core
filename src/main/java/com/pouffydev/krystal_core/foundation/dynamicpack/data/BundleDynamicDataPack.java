@@ -149,7 +149,7 @@ public class BundleDynamicDataPack implements PackResources {
     }
 
     public static void addRecipe(ResourceLocation recipeId, CustomRecipe<?> recipe, @Nullable AdvancementHolder advancement, HolderLookup.Provider provider) {
-        JsonElement recipeJson = recipe.serialize();
+        JsonElement recipeJson = recipe.save();
         byte[] recipeBytes = recipeJson.toString().getBytes(StandardCharsets.UTF_8);
         Path parent = KrystalCore.getGameDir().resolve("krystal_core/dumped/runtime/data");
         if (KrystalCore.isDevelopmentEnvironment) {

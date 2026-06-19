@@ -1,12 +1,12 @@
 package com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.pouffydev.krystal_core.KrystalCore;
+import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.bnc.KegPouringRecipe;
 import lombok.Getter;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentPatch;
@@ -20,12 +20,14 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.material.Fluid;
+import net.neoforged.neoforge.common.conditions.ICondition;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
-import org.apache.commons.codec.language.bm.Lang;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public abstract class CreateRecipe extends CustomRecipe<RecipeInput> {
@@ -36,6 +38,8 @@ public abstract class CreateRecipe extends CustomRecipe<RecipeInput> {
     protected NonNullList<FluidStack> fluidResults;
     protected int processingDuration;
     protected HeatCondition requiredHeat;
+
+    private final @Getter List<ICondition> conditions = new ArrayList<>();
 
     protected abstract ResourceLocation getId();
 
@@ -164,12 +168,18 @@ public abstract class CreateRecipe extends CustomRecipe<RecipeInput> {
         return this;
     }
 
+
+    public CreateRecipe withCondition(ICondition condition) {
+        conditions.add(condition);
+        return this;
+    }
+
     public JsonObject serializeExtra(JsonObject jsonObject) {
         return jsonObject;
     }
 
     @Override
-    public JsonElement serialize() {
+    public JsonObject serialize() {
         JsonObject json = new JsonObject();
         json.addProperty("type", getId().toString());
         JsonArray ingredients = new JsonArray();
