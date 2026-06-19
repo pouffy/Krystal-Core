@@ -1,6 +1,7 @@
-package com.pouffydev.krystal_core.core.registry;
+package com.pouffydev.krystal_core.foundation.registry;
 
-import com.pouffydev.krystal_core.KrystalCore;
+import com.pouffydev.krystal_core.foundation.registry.block.BlockRegistryHelper;
+import com.pouffydev.krystal_core.foundation.registry.item.ItemRegistryHelper;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
@@ -25,6 +26,14 @@ public class RegistryHelper {
         this.modId = modId;
         this.eventBus = eventBus;
         INSTANCE = this;
+    }
+
+    public ItemRegistryHelper getItemHelper() {
+        return new ItemRegistryHelper(getModId(), getEventBus());
+    }
+
+    public BlockRegistryHelper getBlockHelper() {
+        return new BlockRegistryHelper(getModId(), getEventBus());
     }
 
     public String getModId() {

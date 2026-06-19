@@ -2,7 +2,7 @@ package com.pouffydev.krystal_core.core.event;
 
 import com.pouffydev.krystal_core.content.item.IRenderableCurio;
 import com.pouffydev.krystal_core.content.item.equipment.KrystalArmorItem;
-import com.pouffydev.krystal_core.core.registry.RegistryHelper;
+import com.pouffydev.krystal_core.foundation.registry.RegistryHelper;
 import com.pouffydev.krystal_core.foundation.CurioHelpers;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;

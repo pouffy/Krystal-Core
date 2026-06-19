@@ -26,7 +26,7 @@ public class AttributesHelper {
     }
 
     public double getAttributeSafe(Holder<Attribute> attribute, double fallback) {
-        if (this.owner.getAttributes().hasAttribute(attribute)) {
+        if (this.owner != null && this.owner.getAttributes().hasAttribute(attribute)) {
             return this.owner.getAttributeValue(attribute);
         }
         return fallback;
@@ -42,6 +42,7 @@ public class AttributesHelper {
     }
 
     public void projectileFired(Projectile proj) {
+        if (this.owner == null) return;
         var damageAttribute = KrystalAttributes.RANGED_DAMAGE;
         // Magical Projectiles should use magic-specific attributes. Not ranged.
         if (proj.getType().is(KCTags.Entities.MAGIC_PROJECTILE.tag())) {

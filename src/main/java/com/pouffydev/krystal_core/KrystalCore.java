@@ -4,7 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.pouffydev.krystal_core.content.*;
 import com.pouffydev.krystal_core.content.item.HoneyBucketItem;
 import com.pouffydev.krystal_core.core.event.KCEventHandler;
-import com.pouffydev.krystal_core.core.registry.RegistryHelper;
+import com.pouffydev.krystal_core.foundation.registry.RegistryHelper;
 import com.pouffydev.krystal_core.datagen.KCDataGenerator;
 import com.pouffydev.krystal_core.foundation.bundle.Bundle;
 import com.pouffydev.krystal_core.foundation.bundle.BundleManager;
@@ -102,6 +102,9 @@ public class KrystalCore {
         KrystalBlockEntities.staticInit();
         KrystalConditions.staticInit();
         modEventBus.addListener(this::registerFluids);
+        if (isDevelopmentEnvironment) {
+            //KrystalDebugItems.staticInit();
+        }
         if (!buildCreative) {
             modEventBus.addListener(EventPriority.LOWEST, CreativeTabManager::buildContents);
             buildCreative = true;
