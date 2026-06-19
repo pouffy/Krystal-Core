@@ -101,12 +101,7 @@ public class KrystalCore {
         KrystalAttributes.staticInit();
         KrystalBlockEntities.staticInit();
         KrystalConditions.staticInit();
-
         modEventBus.addListener(this::registerFluids);
-        if(isDevelopmentEnvironment) {
-            enableHoneyFluid();
-            enablePowderSnowFluid();
-        }
         if (!buildCreative) {
             modEventBus.addListener(EventPriority.LOWEST, CreativeTabManager::buildContents);
             buildCreative = true;

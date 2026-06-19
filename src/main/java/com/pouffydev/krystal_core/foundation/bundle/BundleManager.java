@@ -28,10 +28,10 @@ public class BundleManager {
     }
 
     public final BundleManager addBundle(Bundle bundle) {
-        this.BUNDLES.add(bundle);
         if (KrystalCore.INSTANCE.BUNDLES.containsKey(bundle.getId())) {
             throw new IllegalArgumentException("A bundle with the name %s already exists!".formatted(bundle.getId()));
         }
+        this.BUNDLES.add(bundle);
         KrystalCore.INSTANCE.BUNDLES.put(bundle.getId(), bundle);
         return this;
     }

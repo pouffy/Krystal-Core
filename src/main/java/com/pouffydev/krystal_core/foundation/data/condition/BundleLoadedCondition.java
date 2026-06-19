@@ -1,4 +1,4 @@
-package com.pouffydev.krystal_core.foundation.bundle;
+package com.pouffydev.krystal_core.foundation.data.condition;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
