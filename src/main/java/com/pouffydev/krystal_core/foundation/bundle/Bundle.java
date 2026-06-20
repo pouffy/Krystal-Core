@@ -51,7 +51,7 @@ public abstract class Bundle {
             }
         }
         // Check if all classes are found
-        allClassesFound = classMap.values().stream().allMatch(Boolean::booleanValue);
+        allClassesFound = getRequiredClasses().isEmpty() || classMap.values().stream().allMatch(Boolean::booleanValue);
         this.isLoaded = loadCheck(allClassesFound);
     }
 

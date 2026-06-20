@@ -48,6 +48,8 @@ public class RecipeTemplates {
         // Brewin & Chewin
         public static KegPouringRecipe KEG_POURING = new KegPouringRecipe();
         public static KegFermentingRecipe KEG_FERMENTING = new KegFermentingRecipe();
+        // Farmer's Respite
+        public static KettleRecipe KETTLE_BREWING = new KettleRecipe();
         // Dungeons Delight
         public static MonsterCookingRecipe MONSTER_COOKING = new MonsterCookingRecipe();
         // Caupona

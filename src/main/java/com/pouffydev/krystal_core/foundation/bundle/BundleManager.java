@@ -7,6 +7,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class BundleManager {
 
@@ -27,10 +28,12 @@ public class BundleManager {
         return manager;
     }
 
-    public final BundleManager addBundle(Bundle bundle) {
+    public final <B extends Bundle> BundleManager addBundle(Function<BundleManager, B> function) {
+        B bundle = function.apply(this);
         if (KrystalCore.INSTANCE.BUNDLES.containsKey(bundle.getId())) {
             throw new IllegalArgumentException("A bundle with the name %s already exists!".formatted(bundle.getId()));
         }
+        bundle.tryLoad();
         this.BUNDLES.add(bundle);
         KrystalCore.INSTANCE.BUNDLES.put(bundle.getId(), bundle);
         return this;

@@ -1,6 +1,5 @@
 package com.pouffydev.krystal_core.foundation.dynamicpack;
 
-import lombok.RequiredArgsConstructor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackLocationInfo;

@@ -41,5 +41,7 @@ public class KCDataGenerator {
         dataGenerator.addProvider(event.includeClient(), sounds);
 
         dataGenerator.addProvider(event.includeClient() && event.includeServer(), language);
+
+        KrystalCore.INSTANCE.krystalCoreBundle.bundleDatagen(event);
     }
 }

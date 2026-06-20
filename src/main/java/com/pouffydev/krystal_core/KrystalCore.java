@@ -76,6 +76,8 @@ public class KrystalCore {
     public final Map<String, BundleManager> BUNDLE_MANAGERS;
     public final Map<ResourceLocation, Bundle> BUNDLES;
 
+    public final BundleManager krystalCoreBundle;
+
     private final IEventBus modEventBus;
     private final RegistryHelper registryHelper;
 
@@ -95,6 +97,7 @@ public class KrystalCore {
         BUNDLE_MANAGERS = new HashMap<>();
         BUNDLES = new HashMap<>();
         this.registryHelper = new RegistryHelper(ID, modEventBus);
+        krystalCoreBundle = BundleManager.create(ID, modEventBus);
         new KCEventHandler(modEventBus).register();
         KrystalAttachmentTypes.staticInit();
         KrystalDataComponents.staticInit();
@@ -104,7 +107,9 @@ public class KrystalCore {
         modEventBus.addListener(this::registerFluids);
         if (isDevelopmentEnvironment) {
             //KrystalDebugItems.staticInit();
+            krystalCoreBundle.addBundle(KrystalDebugBundle::new);
         }
+        krystalCoreBundle.visit();
         if (!buildCreative) {
             modEventBus.addListener(EventPriority.LOWEST, CreativeTabManager::buildContents);
             buildCreative = true;
