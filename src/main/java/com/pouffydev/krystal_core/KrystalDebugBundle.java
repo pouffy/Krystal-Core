@@ -1,5 +1,6 @@
 package com.pouffydev.krystal_core;
 
+import com.pouffydev.krystal_core.content.KrystalDebugItems;
 import com.pouffydev.krystal_core.foundation.bundle.Bundle;
 import com.pouffydev.krystal_core.foundation.bundle.BundleManager;
 import com.pouffydev.krystal_core.foundation.bundle.runtime.AbstractBundleRecipeHandler;
@@ -9,9 +10,11 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -34,11 +37,18 @@ public class KrystalDebugBundle extends Bundle {
     @Override
     protected void onLoad() {
         KrystalCore.LOGGER.info("Loaded debug bundle. If this is not a development environment, please report this to the issue tracker");
+        KrystalDebugItems.staticInit();
     }
 
     @Override
     public void runDatagen(GatherDataEvent event) {
 
+    }
+
+    @Override
+    public void addCreative(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES)
+            KrystalDebugItems.DYED_COINS.forEach((c, i) -> event.accept(i.get()));
     }
 
     @Override

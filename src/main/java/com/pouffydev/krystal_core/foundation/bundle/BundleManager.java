@@ -7,6 +7,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class BundleManager {
@@ -55,6 +56,14 @@ public class BundleManager {
     public void bundleDatagen(GatherDataEvent event) {
         for (Bundle bundle : BUNDLES) {
             bundle.runDatagen(event);
+        }
+    }
+
+    public void forEach(Consumer<Bundle> consumer, boolean loaded) {
+        if (loaded) {
+            this.BUNDLES.stream().filter(Bundle::isLoaded).forEach(consumer);
+        } else {
+            this.BUNDLES.forEach(consumer);
         }
     }
 }

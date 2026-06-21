@@ -6,6 +6,7 @@ import com.pouffydev.krystal_core.client.renderer.block.SuspiciousBlockEntityRen
 import com.pouffydev.krystal_core.content.KrystalBlockEntities;
 import com.pouffydev.krystal_core.content.item.IRenderableCurio;
 import com.pouffydev.krystal_core.content.item.exploration.NavigationHelper;
+import com.pouffydev.krystal_core.foundation.CompatHelpers;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.item.CompassItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -26,7 +27,7 @@ public class KrystalCoreClient {
 
     @SubscribeEvent
     public static void clientInit(FMLClientSetupEvent event) {
-        CuriosRenderers.register();
+        if (CompatHelpers.isLoaded("curios")) CuriosRenderers.register();
         registerModelPredicates();
 
         BlockEntityRenderers.register(KrystalBlockEntities.SUSPICIOUS_BLOCK.get(), SuspiciousBlockEntityRenderer::new);
@@ -71,7 +72,7 @@ public class KrystalCoreClient {
 
     @SubscribeEvent
     static void registerLayerDefinitions(final EntityRenderersEvent.RegisterLayerDefinitions event) {
-        CuriosRenderers.onLayerRegister(event);
+        if (CompatHelpers.isLoaded("curios")) CuriosRenderers.onLayerRegister(event);
     }
 
     public static class CuriosRenderers {

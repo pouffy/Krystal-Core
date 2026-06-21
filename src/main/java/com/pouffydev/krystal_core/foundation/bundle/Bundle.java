@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.data.loading.DatagenModLoader;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -78,6 +79,8 @@ public abstract class Bundle {
     }
 
     public abstract void runDatagen(GatherDataEvent event);
+
+    public abstract void addCreative(BuildCreativeModeTabContentsEvent event);
 
     public abstract AbstractBundleRecipeHandler getRecipeHandler();
 }

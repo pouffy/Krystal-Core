@@ -2,6 +2,7 @@ package com.pouffydev.krystal_core.foundation.registry;
 
 import com.pouffydev.krystal_core.foundation.registry.block.BlockRegistryHelper;
 import com.pouffydev.krystal_core.foundation.registry.item.ItemRegistryHelper;
+import lombok.Getter;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
@@ -10,14 +11,15 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class RegistryHelper {
     public static List<DeferredRegister<DataComponentType<?>>> COMPONENT_REGISTRIES = new ArrayList<>();
+    @Getter
     private final String modId;
+    @Getter
     private final IEventBus eventBus;
 
     private static RegistryHelper INSTANCE;
@@ -36,19 +38,15 @@ public class RegistryHelper {
         return new BlockRegistryHelper(getModId(), getEventBus());
     }
 
-    public String getModId() {
-        return modId;
-    }
-
-    public IEventBus getEventBus() {
-        return eventBus;
+    public CreativeTabRegistryHelper getCreativeTabHelper() {
+        return new CreativeTabRegistryHelper(getModId(), getEventBus());
     }
 
     public static RegistryHelper getInstance() {
         return INSTANCE;
     }
 
-    private final Consumer<?> NO_ACTION = (a) -> {};
+    private static final Consumer<?> NO_ACTION = (a) -> {};
 
     public ResourceLocation location(String path) {
         return ResourceLocation.fromNamespaceAndPath(getModId(), path);
@@ -74,7 +72,7 @@ public class RegistryHelper {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> Consumer<T> noAction() {
+    public static  <T> Consumer<T> noAction() {
         return ((Consumer<T>) NO_ACTION);
     }
 }

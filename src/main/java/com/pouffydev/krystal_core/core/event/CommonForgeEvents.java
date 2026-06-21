@@ -18,6 +18,7 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.BlockEntityTypeAddBlocksEvent;
+import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
@@ -72,6 +73,13 @@ public class CommonForgeEvents {
                     event.getPackType(),
                     Pack.Position.BOTTOM,
                     BundleDynamicDataPack::new));
+        }
+    }
+
+    @SubscribeEvent
+    public static void addToTab(BuildCreativeModeTabContentsEvent event) {
+        for (var manager : KrystalCore.INSTANCE.BUNDLE_MANAGERS.values()) {
+            manager.forEach(bundle -> bundle.addCreative(event), true);
         }
     }
 }

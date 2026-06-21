@@ -59,6 +59,7 @@ public class KrystalCore {
      * Krystal Core's Registry Helper
      */
     public static final boolean isDevelopmentEnvironment = !FMLEnvironment.production;
+    private static boolean disableDebugFeatures = false;
 
     private static boolean enablePowderSnowFluid = false;
     public static final DeferredHolder<FluidType, FluidType> POWDER_SNOW_TYPE = DeferredHolder.create(NeoForgeRegistries.Keys.FLUID_TYPES, location("powder_snow"));
@@ -89,6 +90,10 @@ public class KrystalCore {
         enableHoneyFluid = true;
     }
 
+    public static void disableDebugFeatures() {
+        disableDebugFeatures = true;
+    }
+
     private boolean buildCreative = false;
 
     public KrystalCore(IEventBus modEventBus, ModContainer modContainer) {
@@ -106,8 +111,7 @@ public class KrystalCore {
         KrystalConditions.staticInit();
         modEventBus.addListener(this::registerFluids);
         if (isDevelopmentEnvironment) {
-            //KrystalDebugItems.staticInit();
-            krystalCoreBundle.addBundle(KrystalDebugBundle::new);
+            if (!disableDebugFeatures) krystalCoreBundle.addBundle(KrystalDebugBundle::new);
         }
         krystalCoreBundle.visit();
         if (!buildCreative) {
