@@ -144,6 +144,9 @@ public class BundleDynamicDataPack implements PackResources {
                     .encodeStart(provider.createSerializationContext(JsonOps.INSTANCE), advancement.value())
                     .getOrThrow();
             byte[] advancementBytes = advancementJson.toString().getBytes(StandardCharsets.UTF_8);
+            if (KrystalCore.isDevelopmentEnvironment) {
+                writeJson(advancement.id(), "advancements", parent, advancementBytes);
+            }
             addToData(getAdvancementLocation(advancement.id()), advancementBytes);
         }
     }
@@ -161,6 +164,9 @@ public class BundleDynamicDataPack implements PackResources {
                     .encodeStart(provider.createSerializationContext(JsonOps.INSTANCE), advancement.value())
                     .getOrThrow();
             byte[] advancementBytes = advancementJson.toString().getBytes(StandardCharsets.UTF_8);
+            if (KrystalCore.isDevelopmentEnvironment) {
+                writeJson(advancement.id(), "advancements", parent, advancementBytes);
+            }
             addToData(getAdvancementLocation(advancement.id()), advancementBytes);
         }
     }

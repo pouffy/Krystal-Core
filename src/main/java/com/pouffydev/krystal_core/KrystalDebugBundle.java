@@ -4,6 +4,7 @@ import com.pouffydev.krystal_core.content.KrystalDebugItems;
 import com.pouffydev.krystal_core.foundation.bundle.Bundle;
 import com.pouffydev.krystal_core.foundation.bundle.BundleManager;
 import com.pouffydev.krystal_core.foundation.bundle.runtime.AbstractBundleRecipeHandler;
+import com.pouffydev.krystal_core.foundation.dynamicpack.data.advancement.RecipeAdvancement;
 import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.farmersdelight.CuttingBoardRecipe;
 import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.output.CustomRecipeOutput;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -61,7 +62,7 @@ public class KrystalDebugBundle extends Bundle {
 
             @Override
             public void runCustom(@NotNull CustomRecipeOutput output) {
-                output.accept(KrystalCore.location("debug_cutting"), CuttingBoardRecipe.cuttingRecipe(Ingredient.of(Items.STONE), Ingredient.of(ItemTags.PICKAXES), Items.COBBLED_DEEPSLATE), null);
+                CuttingBoardRecipe.cuttingRecipe(Ingredient.of(Items.STONE), Ingredient.of(ItemTags.PICKAXES), Items.COBBLED_DEEPSLATE).save(output, KrystalCore.location("debug_cutting"), (id) -> new RecipeAdvancement(output, id).unlockedByAnyIngredient(Items.STONE));
             }
         };
     }
