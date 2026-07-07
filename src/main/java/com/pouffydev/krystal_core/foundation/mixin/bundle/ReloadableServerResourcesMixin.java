@@ -1,7 +1,6 @@
 package com.pouffydev.krystal_core.foundation.mixin.bundle;
 
 import com.pouffydev.krystal_core.foundation.bundle.runtime.BundledRecipes;
-import com.pouffydev.krystal_core.foundation.data.provider.server.KrysOutput;
 import com.pouffydev.krystal_core.foundation.dynamicpack.data.BundleDynamicDataPack;
 import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.CustomRecipe;
 import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.output.CustomRecipeOutput;

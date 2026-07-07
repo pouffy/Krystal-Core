@@ -226,11 +226,11 @@ public abstract class CreateRecipe extends CustomRecipe<RecipeInput> {
     public static class SimpleCreateRecipe extends CreateRecipe {
 
         @Getter
-        private ResourceLocation id;
+        private final ResourceLocation id;
         @Getter
-        private int maxInputCount;
+        private final int maxInputCount;
         @Getter
-        private int maxOutputCount;
+        private final int maxOutputCount;
         @Getter
         private int maxFluidOutputCount = 0;
         @Getter

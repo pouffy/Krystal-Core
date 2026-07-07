@@ -11,7 +11,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -35,7 +36,7 @@ public class RegistryHelper {
     }
 
     public BlockRegistryHelper getBlockHelper() {
-        return new BlockRegistryHelper(getModId(), getEventBus());
+        return new BlockRegistryHelper(getItemHelper());
     }
 
     public CreativeTabRegistryHelper getCreativeTabHelper() {
@@ -60,8 +61,16 @@ public class RegistryHelper {
         return registerToBus(DeferredRegister.create(registry, getModId()));
     }
 
+    public DeferredRegister.Items createItems() {
+        return registerToBus(DeferredRegister.createItems(getModId()));
+    }
+
+    public DeferredRegister.Blocks createBlocks() {
+        return registerToBus(DeferredRegister.createBlocks(getModId()));
+    }
+
     public DeferredRegister<DataComponentType<?>> componentsRegister() {
-        var register = registerToBus(DeferredRegister.create(Registries.DATA_COMPONENT_TYPE, getModId()));
+        var register = registerToBus(DeferredRegister.createDataComponents(Registries.DATA_COMPONENT_TYPE, getModId()));
         COMPONENT_REGISTRIES.add(register);
         return register;
     }

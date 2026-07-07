@@ -13,11 +13,14 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.TooltipFlag;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import static net.neoforged.neoforge.common.extensions.IAttributeExtension.FORMAT;
 import static net.neoforged.neoforge.common.extensions.IAttributeExtension.isNullOrAddition;
@@ -127,5 +130,17 @@ public class TextHelpers {
             debugInfo = Component.literal(" ").append(Component.literal(txt).withStyle(ChatFormatting.GRAY));
         }
         return debugInfo;
+    }
+
+    public static String toEng(Object internalName) {
+        String[] parts = internalName.toString().split("\\.");
+        String toTranslate = parts[parts.length - 1];
+        return toEnglishName(toTranslate);
+    }
+
+    public static String toEnglishName(Object internalName) {
+        return Arrays.stream(internalName.toString().toLowerCase(Locale.ROOT).split("_"))
+                .map(StringUtils::capitalize)
+                .collect(Collectors.joining(" "));
     }
 }

@@ -1,9 +1,9 @@
 package com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom;
 
 import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.caupona.DoliumRestingRecipe;
-import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.farmersdelight.*;
 import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.create.CreateRecipe;
 import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.create.VatRecipe;
+import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.farmersdelight.*;
 
 import static com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.create.CreateRecipe.*;
 
@@ -50,6 +50,7 @@ public class RecipeTemplates {
         public static KegFermentingRecipe KEG_FERMENTING = new KegFermentingRecipe();
         // Farmer's Respite
         public static KettleRecipe KETTLE_BREWING = new KettleRecipe();
+        public static KettlePouringRecipe KETTLE_POURING = new KettlePouringRecipe();
         // Dungeons Delight
         public static MonsterCookingRecipe MONSTER_COOKING = new MonsterCookingRecipe();
         // Caupona

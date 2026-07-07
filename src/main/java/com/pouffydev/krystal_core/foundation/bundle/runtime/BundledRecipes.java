@@ -2,7 +2,6 @@ package com.pouffydev.krystal_core.foundation.bundle.runtime;
 
 import com.pouffydev.krystal_core.KrystalCore;
 import com.pouffydev.krystal_core.foundation.bundle.Bundle;
-import com.pouffydev.krystal_core.foundation.data.provider.server.KrysOutput;
 import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.custom.CustomRecipe;
 import com.pouffydev.krystal_core.foundation.dynamicpack.data.recipe.output.CustomRecipeOutput;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;

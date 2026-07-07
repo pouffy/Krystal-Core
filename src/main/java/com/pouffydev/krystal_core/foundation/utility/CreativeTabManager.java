@@ -151,7 +151,7 @@ public class CreativeTabManager {
         private final boolean behindParent;
         private final @Nullable ItemLike appendParent;
 
-        private List<ItemLike> chainedItems = new ArrayList<>();
+        private final List<ItemLike> chainedItems = new ArrayList<>();
 
         public DaisyChain(ResourceKey<CreativeModeTab> tab, boolean reversed, boolean behindParent, @Nullable ItemLike appendParent) {
             this.tab = tab;
@@ -185,7 +185,7 @@ public class CreativeTabManager {
         private final List<ItemLike> appendToEnd = new ArrayList<>();
         private final Multimap<ItemLike, ItemLike> appendBehind = LinkedHashMultimap.create();
         private final Multimap<ItemLike, ItemLike> appendInFront = LinkedHashMultimap.create();
-        private List<ItemLike> addedItems = new ArrayList<>();
+        private final List<ItemLike> addedItems = new ArrayList<>();
 
         private void addBehind(ItemLike item, ItemLike parent, boolean addFirst) {
             if (!validateItem(item)) return;

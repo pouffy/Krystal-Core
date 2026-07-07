@@ -1,11 +1,6 @@
 package com.pouffydev.krystal_core.foundation.utility;
 
-import com.google.common.collect.ImmutableList;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-
 import java.util.Iterator;
-import java.util.List;
 import java.util.function.*;
 import java.util.stream.Stream;
 

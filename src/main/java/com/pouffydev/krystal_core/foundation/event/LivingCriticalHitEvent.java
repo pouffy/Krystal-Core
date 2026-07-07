@@ -1,12 +1,14 @@
 package com.pouffydev.krystal_core.foundation.event;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.neoforged.neoforge.event.entity.living.LivingEvent;
 import org.jetbrains.annotations.Nullable;
 
+@Getter @Setter
 public class LivingCriticalHitEvent extends LivingEvent {
     private final float vanillaDmgMultiplier;
     private final boolean isVanillaCritical;
@@ -34,41 +36,5 @@ public class LivingCriticalHitEvent extends LivingEvent {
         } else {
             this.dmgMultiplier = dmgMultiplier;
         }
-    }
-
-    public boolean isCriticalHit() {
-        return this.isCriticalHit;
-    }
-
-    public void setCriticalHit(boolean isCriticalHit) {
-        this.isCriticalHit = isCriticalHit;
-    }
-
-    public float getVanillaMultiplier() {
-        return this.vanillaDmgMultiplier;
-    }
-
-    public boolean isVanillaCritical() {
-        return this.isVanillaCritical;
-    }
-
-    public void setDisableSweep(boolean disableSweep) {
-        this.disableSweep = disableSweep;
-    }
-
-    public boolean disableSweep() {
-        return this.disableSweep;
-    }
-
-    public DamageSource getSource() {
-        return this.source;
-    }
-
-    public boolean isRanged() {
-        return this.projectile != null;
-    }
-
-    public Projectile getProjectile() {
-        return this.projectile;
     }
 }

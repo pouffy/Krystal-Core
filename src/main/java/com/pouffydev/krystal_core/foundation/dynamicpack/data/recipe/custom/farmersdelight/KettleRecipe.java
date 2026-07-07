@@ -70,7 +70,7 @@ public class KettleRecipe extends CustomRecipe<RecipeInput> {
     @Override
     public JsonObject serialize() {
         JsonObject json = new JsonObject();
-        json.addProperty("type", "farmersrespite:keg_fermenting");
+        json.addProperty("type", "farmersrespite:brewing");
         json.addProperty("group", this.group);
         FluidStack.CODEC.encodeStart(JsonOps.INSTANCE, this.inputFluid).result().ifPresent((fluid) -> json.add("base", fluid));
         JsonArray ingredients = new JsonArray();
