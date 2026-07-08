@@ -1,4 +1,4 @@
-package com.pouffydev.krystal_core.foundation.registry.definition;
+package com.pouffydev.krystal_core.foundation.registry.definition.item;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BlockItem;

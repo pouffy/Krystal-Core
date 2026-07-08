@@ -20,7 +20,7 @@ import java.util.function.Function;
 
 public class KrystalAttributes {
     public static final HashMap<DeferredHolder<Attribute, Attribute>, UUID> UUIDS = new HashMap<>();
-    public static final DeferredRegister<Attribute> ATTRIBUTES = KrystalCore.getRegistryHelper().createRegister(Registries.ATTRIBUTE);
+    public static final DeferredRegister<Attribute> ATTRIBUTES = KrystalCore.getRegistryManager().createRegister(Registries.ATTRIBUTE);
 
     //Critical Strike
     public static final DeferredHolder<Attribute, Attribute> MELEE_CRIT_CHANCE = registerAttribute("critical_strike_chance.melee", (id) -> new RangedAttribute("attribute.name.krystal_core.melee_critical_strike_chance", 0.04F, 0.0, 1024.0).setSyncable(true), "9ec6dddd-804a-4db6-becd-757961b8b2d7");

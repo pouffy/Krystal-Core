@@ -1,7 +1,6 @@
-package com.pouffydev.krystal_core.foundation.registry.item;
+package com.pouffydev.krystal_core.foundation.registry.definition.item;
 
 import com.pouffydev.krystal_core.foundation.registry.DeferredHolderSet;
-import com.pouffydev.krystal_core.foundation.registry.definition.ItemDefinition;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.Item;
 

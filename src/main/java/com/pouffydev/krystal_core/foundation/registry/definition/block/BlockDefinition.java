@@ -1,6 +1,7 @@
-package com.pouffydev.krystal_core.foundation.registry.definition;
+package com.pouffydev.krystal_core.foundation.registry.definition.block;
 
 import com.pouffydev.krystal_core.foundation.data.loot.BlockLootType;
+import com.pouffydev.krystal_core.foundation.registry.definition.item.ItemLikeDefinition;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.registries.DeferredBlock;

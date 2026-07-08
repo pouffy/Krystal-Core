@@ -1,4 +1,4 @@
-package com.pouffydev.krystal_core.foundation.registry.definition;
+package com.pouffydev.krystal_core.foundation.registry.definition.block;
 
 import com.pouffydev.krystal_core.foundation.data.loot.BlockLootType;
 import com.pouffydev.krystal_core.foundation.data.loot.CustomBlockLootType;

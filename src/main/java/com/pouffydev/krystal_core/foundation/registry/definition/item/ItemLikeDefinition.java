@@ -1,5 +1,6 @@
-package com.pouffydev.krystal_core.foundation.registry.definition;
+package com.pouffydev.krystal_core.foundation.registry.definition.item;
 
+import com.pouffydev.krystal_core.foundation.registry.definition.TranslatableDefinition;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -8,7 +9,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import org.jetbrains.annotations.NotNull;
 
-public class ItemLikeDefinition<R extends ItemLike, T extends R> extends Definition<R, T> implements ItemLike {
+public class ItemLikeDefinition<R extends ItemLike, T extends R> extends TranslatableDefinition<R, T> implements ItemLike {
     protected ItemLikeDefinition(ResourceKey<R> key, String customLang) {
         super(key, customLang);
     }

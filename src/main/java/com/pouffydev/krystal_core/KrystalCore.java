@@ -9,6 +9,7 @@ import com.pouffydev.krystal_core.foundation.bundle.Bundle;
 import com.pouffydev.krystal_core.foundation.bundle.BundleManager;
 import com.pouffydev.krystal_core.foundation.data.RegistryAccessJsonReloadListener;
 import com.pouffydev.krystal_core.foundation.registry.RegistryHelper;
+import com.pouffydev.krystal_core.foundation.registry.RegistryManager;
 import com.pouffydev.krystal_core.foundation.utility.CreativeTabManager;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
@@ -80,7 +81,7 @@ public class KrystalCore {
     public final BundleManager krystalCoreBundle;
 
     private final IEventBus modEventBus;
-    private final RegistryHelper registryHelper;
+    private final RegistryManager registryManager;
 
     public static void enablePowderSnowFluid() {
         enablePowderSnowFluid = true;
@@ -101,7 +102,7 @@ public class KrystalCore {
         INSTANCE = this;
         BUNDLE_MANAGERS = new HashMap<>();
         BUNDLES = new HashMap<>();
-        this.registryHelper = new RegistryHelper(ID, modEventBus);
+        this.registryManager = new RegistryManager(ID, modEventBus);
         krystalCoreBundle = BundleManager.create(ID, modEventBus);
         new KCEventHandler(modEventBus).register();
         KrystalAttachmentTypes.staticInit();
@@ -172,8 +173,8 @@ public class KrystalCore {
         return INSTANCE.modEventBus;
     }
 
-    public static RegistryHelper getRegistryHelper() {
-        return INSTANCE.registryHelper;
+    public static RegistryManager getRegistryManager() {
+        return INSTANCE.registryManager;
     }
 
     @Contract("_ -> new")

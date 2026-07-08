@@ -1,8 +1,9 @@
-package com.pouffydev.krystal_core.foundation.registry.item;
+package com.pouffydev.krystal_core.foundation.registry.definition.item;
 
 import com.pouffydev.krystal_core.foundation.TextHelpers;
 import com.pouffydev.krystal_core.foundation.registry.RegistryHelper;
-import com.pouffydev.krystal_core.foundation.registry.definition.ItemDefinition;
+import com.pouffydev.krystal_core.foundation.registry.RegistryManager;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
@@ -17,15 +18,14 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
-public class ItemRegistryHelper extends RegistryHelper {
+public class ItemRegistryHelper extends RegistryHelper<Item> {
     public final List<ItemDefinition<?>> ITEM_DEFINITIONS;
 
-    public ItemRegistryHelper(String modId, IEventBus eventBus) {
-        super(modId, eventBus);
+    public ItemRegistryHelper() {
         this.ITEM_DEFINITIONS = new ArrayList<>();
     }
 
-    public final DeferredRegister.Items ITEMS = createItems();
+    public final DeferredRegister.Items ITEMS = RegistryManager.getInstance().createItems();
 
     public <T extends Item> ItemDefinition<T> register(String name, Supplier<T> constructor) {
         DeferredItem<T> deferred = ITEMS.register(name, constructor);

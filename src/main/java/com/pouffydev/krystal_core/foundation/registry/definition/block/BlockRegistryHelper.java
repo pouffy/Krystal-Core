@@ -1,10 +1,9 @@
-package com.pouffydev.krystal_core.foundation.registry.block;
+package com.pouffydev.krystal_core.foundation.registry.definition.block;
 
 import com.pouffydev.krystal_core.foundation.TextHelpers;
 import com.pouffydev.krystal_core.foundation.registry.RegistryHelper;
-import com.pouffydev.krystal_core.foundation.registry.definition.BlockDefinition;
-import com.pouffydev.krystal_core.foundation.registry.definition.BlockProperties;
-import com.pouffydev.krystal_core.foundation.registry.item.ItemRegistryHelper;
+import com.pouffydev.krystal_core.foundation.registry.RegistryManager;
+import com.pouffydev.krystal_core.foundation.registry.definition.item.ItemRegistryHelper;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
@@ -20,17 +19,16 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
-public class BlockRegistryHelper extends RegistryHelper {
+public class BlockRegistryHelper extends RegistryHelper<Block> {
     public final List<BlockDefinition<?>> BLOCK_DEFINITIONS;
     public final ItemRegistryHelper itemRegistryHelper;
 
     public BlockRegistryHelper(ItemRegistryHelper itemRegistryHelper) {
-        super(itemRegistryHelper.getModId(), itemRegistryHelper.getEventBus());
         this.itemRegistryHelper = itemRegistryHelper;
         this.BLOCK_DEFINITIONS = new ArrayList<>();
     }
 
-    public final DeferredRegister.Blocks BLOCKS = createBlocks();
+    public final DeferredRegister.Blocks BLOCKS = RegistryManager.getInstance().createBlocks();
 
     public <T extends Block> BlockDefinition<T> registerNoItem(String name, Supplier<T> block, BlockProperties properties) {
         DeferredBlock<T> deferred = BLOCKS.register(name, block);
