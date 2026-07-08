@@ -7,12 +7,15 @@ import com.pouffydev.krystal_core.content.effect.IDamageAltering;
 import com.pouffydev.krystal_core.content.player.attribute.AttributesHelper;
 import com.pouffydev.krystal_core.foundation.dynamicpack.KrystalPackSource;
 import com.pouffydev.krystal_core.foundation.dynamicpack.data.BundleDynamicDataPack;
+import com.pouffydev.krystal_core.foundation.event.PopulateKnownDyesEvent;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
@@ -80,6 +83,44 @@ public class CommonForgeEvents {
     public static void addToTab(BuildCreativeModeTabContentsEvent event) {
         for (var manager : KrystalCore.INSTANCE.BUNDLE_MANAGERS.values()) {
             manager.forEach(bundle -> bundle.addCreative(event), true);
+        }
+    }
+
+    @SubscribeEvent
+    public static void populateDyes(PopulateKnownDyesEvent event) {
+        event.addVanilla(DyeColor.WHITE);
+        event.addVanilla(DyeColor.ORANGE);
+        event.addVanilla(DyeColor.MAGENTA);
+        event.addVanilla(DyeColor.LIGHT_BLUE);
+        event.addVanilla(DyeColor.YELLOW);
+        event.addVanilla(DyeColor.LIME);
+        event.addVanilla(DyeColor.PINK);
+        event.addVanilla(DyeColor.GRAY);
+        event.addVanilla(DyeColor.LIGHT_GRAY);
+        event.addVanilla(DyeColor.CYAN);
+        event.addVanilla(DyeColor.PURPLE);
+        event.addVanilla(DyeColor.BLUE);
+        event.addVanilla(DyeColor.BROWN);
+        event.addVanilla(DyeColor.GREEN);
+        event.addVanilla(DyeColor.RED);
+        event.addVanilla(DyeColor.BLACK);
+        if (ModList.get().isLoaded("dye_depot")) {
+            event.addDyeDepot("maroon");
+            event.addDyeDepot("rose");
+            event.addDyeDepot("coral");
+            event.addDyeDepot("indigo");
+            event.addDyeDepot("navy");
+            event.addDyeDepot("slate");
+            event.addDyeDepot("olive");
+            event.addDyeDepot("amber");
+            event.addDyeDepot("beige");
+            event.addDyeDepot("teal");
+            event.addDyeDepot("mint");
+            event.addDyeDepot("aqua");
+            event.addDyeDepot("verdant");
+            event.addDyeDepot("forest");
+            event.addDyeDepot("ginger");
+            event.addDyeDepot("tan");
         }
     }
 }

@@ -11,6 +11,7 @@
     "bundle.RecipeManagerEarlyMixin",
     "bundle.RecipeManagerLateMixin",
     "bundle.ReloadableServerResourcesMixin",
+    "dye.DyeColorMixin",
     "effect.ItemStackMixin",
     "effect.LivingEntityMixin",
     "effect.MobEffectInstanceAccessor",

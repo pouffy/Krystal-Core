@@ -5,11 +5,12 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
+import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
-public class FluidDefinition<T extends Fluid> extends TranslatableDefinition<Fluid, T> {
+public class FluidDefinition<T extends BaseFlowingFluid> extends TranslatableDefinition<Fluid, T> {
     private final FluidProperties properties;
 
     protected FluidDefinition(ResourceKey<Fluid> key, FluidProperties properties) {
@@ -21,12 +22,12 @@ public class FluidDefinition<T extends Fluid> extends TranslatableDefinition<Flu
         this(key, FluidProperties.custom(""));
     }
 
-    public static <T extends Fluid> FluidDefinition<T> fromHolder(DeferredHolder<Fluid, T> holder) {
+    public static <T extends BaseFlowingFluid> FluidDefinition<T> fromHolder(DeferredHolder<Fluid, T> holder) {
         return fromHolder(holder, FluidProperties.custom(""));
     }
 
-    public static <T extends Fluid> FluidDefinition<T> fromHolder(DeferredHolder<Fluid, T> holder, FluidProperties properties) {
-        return new FluidDefinition<T>(holder.getKey(), properties);
+    public static <T extends BaseFlowingFluid> FluidDefinition<T> fromHolder(DeferredHolder<Fluid, T> holder, FluidProperties properties) {
+        return new FluidDefinition<>(holder.getKey(), properties);
     }
 
     public boolean is(Fluid fluid) {
@@ -43,6 +44,14 @@ public class FluidDefinition<T extends Fluid> extends TranslatableDefinition<Flu
 
     public boolean hasBucket() {
         return this.get().getBucket() != Items.AIR;
+    }
+
+    public Fluid getFlowing() {
+        return this.get().getFlowing();
+    }
+
+    public Fluid getSource() {
+        return this.get().getSource();
     }
 
     public SizedFluidIngredient ingredient() {

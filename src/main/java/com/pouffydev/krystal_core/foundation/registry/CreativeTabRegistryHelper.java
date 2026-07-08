@@ -8,20 +8,19 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-import static com.pouffydev.krystal_core.foundation.registry.RegistryManager.noAction;
-
-public class CreativeTabRegistryHelper extends RegistryHelper<CreativeModeTab> {
-    public CreativeTabRegistryHelper() {
-        super();
+public class CreativeTabRegistryHelper extends RegistryHelper {
+    public CreativeTabRegistryHelper(String modId, IEventBus eventBus) {
+        super(modId, eventBus);
     }
 
-    public final DeferredRegister<CreativeModeTab> TABS = RegistryManager.getInstance().createRegister(Registries.CREATIVE_MODE_TAB);
+    public final DeferredRegister<CreativeModeTab> TABS = createRegister(Registries.CREATIVE_MODE_TAB);
 
     public DeferredHolder<CreativeModeTab, CreativeModeTab> registerTab(String name, Holder<Item> icon, BiConsumer<CreativeModeTab.ItemDisplayParameters, CreativeModeTab.Output> displayItems) {
         return registerTab(name, icon, displayItems, noAction());

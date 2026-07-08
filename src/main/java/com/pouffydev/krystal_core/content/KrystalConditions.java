@@ -10,7 +10,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 public class KrystalConditions {
-    public static final DeferredRegister<MapCodec<? extends ICondition>> CONDITIONS = KrystalCore.getRegistryManager().createRegister(NeoForgeRegistries.Keys.CONDITION_CODECS);
+    public static final DeferredRegister<MapCodec<? extends ICondition>> CONDITIONS = KrystalCore.getRegistryHelper().createRegister(NeoForgeRegistries.Keys.CONDITION_CODECS);
 
     public static final DeferredHolder<MapCodec<? extends ICondition>, MapCodec<BundleLoadedCondition>> BUNDLE_LOADED = CONDITIONS.register("bundle_loaded", () -> BundleLoadedCondition.CODEC);
     public static final DeferredHolder<MapCodec<? extends ICondition>, MapCodec<BooleanConfigCondition>> BOOLEAN_CONFIG = CONDITIONS.register("config_boolean", () -> BooleanConfigCondition.CODEC);
