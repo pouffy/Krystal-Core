@@ -10,6 +10,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityAttributeModificationEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -18,6 +19,7 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.function.Function;
 
+@EventBusSubscriber
 public class KrystalAttributes {
     public static final HashMap<DeferredHolder<Attribute, Attribute>, UUID> UUIDS = new HashMap<>();
     public static final DeferredRegister<Attribute> ATTRIBUTES = KrystalCore.getRegistryHelper().createRegister(Registries.ATTRIBUTE);
